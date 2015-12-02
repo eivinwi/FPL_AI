@@ -1,17 +1,11 @@
 package fpl_base;
 
-import javafx.collections.transformation.SortedList;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.TreeSet;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
-/**
- * Created by Eivind on 08.11.2015.
- */
+@SuppressWarnings("unused")
 public class League {
     //TODO: redo list implementation
     private TreeSet<Team> teams;
@@ -19,7 +13,7 @@ public class League {
 
     public League() {
         //teams = new SortedList<Team>();
-        teams = new TreeSet<Team>();
+        teams = new TreeSet<>();
     }
 
     public void addTeam(Team team) {

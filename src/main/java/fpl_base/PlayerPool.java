@@ -3,9 +3,7 @@ package fpl_base;
 import java.util.HashMap;
 import java.util.HashSet;
 
-/**
- * Created by eivwik on 06.11.15.
- */
+@SuppressWarnings("unused")
 public class PlayerPool {
     HashMap<String, Player> players;
     HashSet<Player> pool = new HashSet<Player>();
@@ -15,7 +13,7 @@ public class PlayerPool {
     }
 
     public PlayerPool() {
-        this.players = new HashMap<String, Player>();
+        this.players = new HashMap<>();
     }
 
     public void addPlayer(Player player) {

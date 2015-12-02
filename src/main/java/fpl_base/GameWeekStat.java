@@ -1,8 +1,6 @@
 package fpl_base;
 
-/**
- * Created by eivwik on 06.11.15.
- */
+@SuppressWarnings("unused")
 public class GameWeekStat {
     private String name;
     private int minutesPlayed;
@@ -49,7 +47,7 @@ public class GameWeekStat {
             this.ownGoals = Integer.parseInt(s[6]);
             this.penaltiesSaved = Integer.parseInt(s[7]);
             this.pentaltiesMissed = Integer.parseInt(s[8]);
-            this.yellowCards = Integer.parseInt(s[9]);;
+            this.yellowCards = Integer.parseInt(s[9]);
             this.redCards = Integer.parseInt(s[10]);
             this.saves = Integer.parseInt(s[11]);
             this.bonus = Integer.parseInt(s[12]);

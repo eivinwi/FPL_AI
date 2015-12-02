@@ -3,9 +3,7 @@ package fpl_base;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Created by eivwik on 05.11.15.
- */
+@SuppressWarnings("unused")
 public class Team implements Comparable<Team> {
     private String name;
     private ArrayList<GoalKeeper> goalKeepers;
@@ -21,11 +19,11 @@ public class Team implements Comparable<Team> {
 
     public Team(String name) {
         this.name = name;
-        goalKeepers = new ArrayList<GoalKeeper>();
-        defenders = new ArrayList<Defender>();
-        midfielders = new ArrayList<Midfielder>();
-        strikers = new ArrayList<Striker>();
-        stats = new HashMap<Double, TeamStats>();
+        goalKeepers = new ArrayList<>();
+        defenders = new ArrayList<>();
+        midfielders = new ArrayList<>();
+        strikers = new ArrayList<>();
+        stats = new HashMap<>();
     }
 
     public String getName() {
@@ -129,7 +127,7 @@ public class Team implements Comparable<Team> {
     // Returns all players that played during the game, even if they did not start.
     //TODO: order of collection list??
     public LinkedList<Player> getTeamInGameWeek(double gw) {
-        LinkedList<Player> gwTeam = new LinkedList<Player>();
+        LinkedList<Player> gwTeam = new LinkedList<>();
         gwTeam.addAll(goalKeepers.stream().filter(player -> player.getStats(gw).getMinutesPlayed() > 0).collect(Collectors.toList()));
         gwTeam.addAll(defenders.stream().filter(player -> player.getStats(gw).getMinutesPlayed() > 0).collect(Collectors.toList()));
         gwTeam.addAll(midfielders.stream().filter(player -> player.getStats(gw).getMinutesPlayed() > 0).collect(Collectors.toList()));
@@ -229,8 +227,7 @@ public class Team implements Comparable<Team> {
 
     @Override
     public boolean equals(Object o) {
-        Team t = (Team) o;
-        return this.name == t.getName();
+       return (o instanceof Team) && (this.name.equals(((Team) o).getName()));
     }
 
     @Override
@@ -238,12 +235,10 @@ public class Team implements Comparable<Team> {
         return name != null ? name.hashCode() : 0;
     }
 
-    @Override
-    public int compareTo(Team o) {
+     public int compareTo(Team o) {
         if (this.totalPoints() > o.totalPoints()) return 1;
         else if (this.totalPoints() < o.totalPoints()) return -1;
         else {
-            int goalRatio = goalsScored - goalsConceded;
             if (this.getGoalRatio() > o.getGoalRatio()) return 1;
             else if (this.getGoalRatio() < o.getGoalRatio()) return -1;
             else {

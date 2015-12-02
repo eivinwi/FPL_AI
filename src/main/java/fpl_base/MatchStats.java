@@ -1,8 +1,5 @@
 package fpl_base;
 
-/**
- * Created by eivwik on 05.11.15.
- */
 public class MatchStats {
     private String name; //player
 

@@ -2,9 +2,7 @@ package fpl_base;
 
 import java.util.HashMap;
 
-/**
- * Created by eivwik on 05.11.15.
- */
+@SuppressWarnings("unused")
 public class Player implements Comparable<Player> {
     private int id;
     private String name;
@@ -19,7 +17,7 @@ public class Player implements Comparable<Player> {
         this.name = name;
         this.price = initialPrice;
         this.totalPoints = totalPoints;
-        this.stats = new HashMap<Double, GameWeekStat>();
+        this.stats = new HashMap<>();
     }
 
     public Player(String name, double initialPrice) {
@@ -106,7 +104,7 @@ public class Player implements Comparable<Player> {
 
     @Override
     public boolean equals(Object o) {
-        return getName().equalsIgnoreCase(((Player) o).getName());
+        return (o instanceof  Player) && getName().equalsIgnoreCase(((Player) o).getName());
     }
 
     @Override

@@ -1,8 +1,6 @@
 package fpl_base;
 
-/**
- * Created by eivwik on 05.11.15.
- */
+@SuppressWarnings("unused")
 public class Striker extends Player {
 
     public Striker(String name, double initialPrice) {
