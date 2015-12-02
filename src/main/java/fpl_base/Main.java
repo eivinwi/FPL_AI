@@ -22,13 +22,10 @@ public class Main {
 
       //  System.out.println("GW " + 38.0 + ": " + league.getTeam("LIV").totalPointsAtGameweek(38.0));
      //   league.showTable(38.0);
-        for(Team t : league.getTeamsAlphabetically()) {
-            System.out.println(t.getName());
+        for(Team t : league.getTeams()) {
+            System.out.println(t.getName() + ": " + t.totalPoints());
         }
 
-        for(Team t : league.getTeamsByPoints()) {
-            System.out.println(t.totalPoints());
-        }
     }
 
     protected static void setup() {
@@ -46,6 +43,13 @@ public class Main {
             @SuppressWarnings("UnusedAssignment") String line = br.readLine();
             while( (line = br.readLine()) != null) {
                 String[] s = line.split(",");
+
+                boolean isDouble = false;
+                if(s[20].contains(".")) {
+                    String gw_num = s[20].substring(0, s[20].indexOf("."));
+                    s[20] = gw_num;
+                    isDouble = true;
+                }
                 GameWeekStat gameWeekStat = new GameWeekStat(s);
 
                 if(!league.hasTeam(gameWeekStat.getTeam())) {
@@ -80,8 +84,15 @@ public class Main {
                     }
                 }
                 Player p = players.getPlayer(gameWeekStat.getName());
-                p.addStats(gameWeekStat);
-                team.addTeamStats(gameWeekStat);
+                if(!isDouble) {
+                    p.addStats(gameWeekStat);
+                    team.addTeamStats(gameWeekStat);
+                } else {
+                    GameWeekStat gwSingle = p.getStats(Integer.parseInt(s[20]));
+                    gwSingle.setDoubleGw(gameWeekStat);
+                    team.getStats(Integer.parseInt(s[20])).setDoubleGw(gameWeekStat);
+                }
+
             }
          } catch (Exception e) {
             System.err.println("Error during file read: " + e);

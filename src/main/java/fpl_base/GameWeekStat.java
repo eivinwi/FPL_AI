@@ -23,7 +23,7 @@ public class GameWeekStat {
     private String score;
     private String opponent;
     private String H_A;
-    private double gameweek;
+    private int gameweek;
     private String position;
     private String difficultyRank;
     private String getDifficultyDesc;
@@ -34,10 +34,15 @@ public class GameWeekStat {
     private double seasonStartPrice;
     private double seasonEndprice;
 
+    GameWeekStat doubleGw;
+
     public GameWeekStat(String[] s) {
         if(s.length < 30) { //Todo: check
             System.out.println("Line array too short");
-        } else {
+        } else if(s[20].contains(".")) {
+            System.out.println("Double gameweek entered as single.");
+        }
+        else {
             this.name = s[0];
             this.minutesPlayed = Integer.parseInt(s[1]);
             this.goalsScored = Integer.parseInt(s[2]);
@@ -58,7 +63,7 @@ public class GameWeekStat {
             this.score = s[17];
             this.opponent = s[18];
             this.H_A = s[19];
-            this.gameweek = s[20].contains(".")? Double.parseDouble(s[20]) : Integer.parseInt(s[20]);
+            this.gameweek = Integer.parseInt(s[20]); //s[20].contains(".")? Double.parseDouble(s[20]) TODO: må fikses før!
             this.position = s[21];
             this.difficultyRank = s[22];
             this.getDifficultyDesc = s[23];
@@ -184,7 +189,7 @@ public class GameWeekStat {
         return H_A;
     }
 
-    public double getGameweek() {
+    public int getGameweek() {
         return gameweek;
     }
 
@@ -222,6 +227,18 @@ public class GameWeekStat {
 
     public double getSeasonEndprice() {
         return seasonEndprice;
+    }
+
+    public void setDoubleGw(GameWeekStat doubleGw) {
+        this.doubleGw = doubleGw;
+    }
+
+    public GameWeekStat getDoubleGw() {
+        return doubleGw;
+    }
+
+    public boolean isDouble() {
+        return doubleGw != null;
     }
 
     public void print() {

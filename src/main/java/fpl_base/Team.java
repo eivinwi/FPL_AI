@@ -11,7 +11,8 @@ public class Team implements Comparable<Team> {
     private ArrayList<Midfielder> midfielders;
     private ArrayList<Striker> strikers;
 
-    HashMap<Double, TeamStats> stats;
+    //HashMap<Double, TeamStats> stats;
+    TeamStats[] stats;
 
     private int points;
     private int goalsScored;
@@ -23,7 +24,8 @@ public class Team implements Comparable<Team> {
         defenders = new ArrayList<>();
         midfielders = new ArrayList<>();
         strikers = new ArrayList<>();
-        stats = new HashMap<>();
+        //stats = new HashMap<>();
+        stats = new TeamStats[39];
     }
 
     public String getName() {
@@ -111,22 +113,14 @@ public class Team implements Comparable<Team> {
     }
 
     public void addTeamStats(GameWeekStat gws) {
-        if(!stats.containsKey(gws.getGameweek())) {
-            if(stats.containsKey(gws.getGameweek() - 1.0)) {
-                if(gws.getGameweek() % 1 == 0) {
-                    stats.put(gws.getGameweek(), new TeamStats(gws, stats.get(gws.getGameweek() - 1.0).totalPoints));
-                } else {
-                    stats.put(gws.getGameweek(), new TeamStats(gws, stats.get(gws.getGameweek() - 0.5).totalPoints));
-                }
-            } else {
-                stats.put(gws.getGameweek(), new TeamStats(gws, 0));
-            }
+        if(stats[gws.getGameweek()] == null) {
+            stats[gws.getGameweek()] = new TeamStats(gws);
         }
     }
 
     // Returns all players that played during the game, even if they did not start.
     //TODO: order of collection list??
-    public LinkedList<Player> getTeamInGameWeek(double gw) {
+    public LinkedList<Player> getTeamInGameWeek(int gw) {
         LinkedList<Player> gwTeam = new LinkedList<>();
         gwTeam.addAll(goalKeepers.stream().filter(player -> player.getStats(gw).getMinutesPlayed() > 0).collect(Collectors.toList()));
         gwTeam.addAll(defenders.stream().filter(player -> player.getStats(gw).getMinutesPlayed() > 0).collect(Collectors.toList()));
@@ -135,11 +129,11 @@ public class Team implements Comparable<Team> {
         return gwTeam;
     }
 
-    private List<Player> wasOnTeam(ArrayList<Player> players, double gw) {
+    private List<Player> wasOnTeam(ArrayList<Player> players, int gw) {
         return players.stream().filter(player -> player.getStats(gw).getMinutesPlayed() > 0).collect(Collectors.toList());
     }
 
-    public int totalPointsInGameWeek(double gw) {
+    public int totalPointsInGameWeek(int gw) {
         int points = 0;
         points += pointsInGameWeek(goalKeepers, gw);
         points += pointsInGameWeek(defenders, gw);
@@ -148,7 +142,7 @@ public class Team implements Comparable<Team> {
         return points;
     }
 
-    private int pointsInGameWeek(ArrayList players, double gw) {
+    private int pointsInGameWeek(ArrayList players, int gw) {
         int points = 0;
         for(Object o : players) {
             Player player = (Player) o;
@@ -157,36 +151,29 @@ public class Team implements Comparable<Team> {
         return points;
     }
 
-    public int totalPointsAtGameweek(double gw) {
-   /*     if(!stats.containsKey(gw)) {
-            System.out.println("WARNING: " + getName() + " does not have a GW " + gw);
-            return 0;
-        }
-*/
+    public int totalPointsAtGameweek(int gw) {
         int pts = 0;
-        int wins = 0, losses = 0, draws = 0;
-        for(TeamStats ts : stats.values()) {
-            if(ts.gameWeek < gw) {
-                pts += ts.points;
-                if(ts.points == 3) wins++;
-                else if (ts.points == 1) draws++;
-                else losses++;
+        for(TeamStats ts : stats) {
+            if(ts != null && ts.gameWeek < gw) {
+                pts += ts.getPoints();
             }
-          //  System.out.println("GW " + ts.gameWeek + ", points= " + pts + "          " + ts.points);
         }
-     //   System.out.println(wins + ", " + draws + "," + losses);
-
-//        return stats.get(gw).totalPoints;
-
         return pts;
     }
 
     public int totalPoints() {
-        return totalPointsAtGameweek(38.0);
+        return totalPointsAtGameweek(39);
     }
 
     public int totalMatches() {
-        return stats.size();
+        int games = 0;
+        for(TeamStats ts : stats) {
+            if(ts != null) {
+                games++;
+                if(ts.isDouble()) games++;
+            }
+        }
+        return games;
     }
 
     public void showPlayers() {
@@ -225,6 +212,14 @@ public class Team implements Comparable<Team> {
         }
     }
 
+    public TeamStats getStats(int gw) {
+        return (hasStats(gw))? stats[gw] : null;
+    }
+
+    public boolean hasStats(int gw) {
+        return stats[gw] != null;
+    }
+
     @Override
     public boolean equals(Object o) {
        return (o instanceof Team) && (this.name.equals(((Team) o).getName()));
@@ -236,14 +231,14 @@ public class Team implements Comparable<Team> {
     }
 
      public int compareTo(Team o) {
-        if (this.totalPoints() > o.totalPoints()) return 1;
-        else if (this.totalPoints() < o.totalPoints()) return -1;
+        if (this.totalPoints() < o.totalPoints()) return 1;
+        else if (this.totalPoints() > o.totalPoints()) return -1;
         else {
-            if (this.getGoalRatio() > o.getGoalRatio()) return 1;
-            else if (this.getGoalRatio() < o.getGoalRatio()) return -1;
+            if (this.getGoalRatio() < o.getGoalRatio()) return 1;
+            else if (this.getGoalRatio() > o.getGoalRatio()) return -1;
             else {
-                if (this.getGoalsScored() > o.getGoalsScored()) return 1;
-                else if (this.getGoalsScored() < o.getGoalsScored()) return -1;
+                if (this.getGoalsScored() < o.getGoalsScored()) return 1;
+                else if (this.getGoalsScored() > o.getGoalsScored()) return -1;
                 else {
                     return this.getName().compareTo(o.getName());
                 }
@@ -251,26 +246,26 @@ public class Team implements Comparable<Team> {
         }
     }
 
-    private class TeamStats {
+    class TeamStats {
         double gameWeek;
         String team;
         String score;
         int homeScore;
         int awayScore;
-        String oponent;
+        String opponent;
         String h_a;
         int points;
-        int totalPoints;
 
+        TeamStats doubleGw;
 
-        public TeamStats(double gw, String team, String score, String oponent, String h_a, int pointsPreviously) {
+        public TeamStats(double gw, String team, String score, String opponent, String h_a) {
             this.gameWeek = gw;
             this.team = team;
             this.score = score;
             String []s = score.split(" - ");
             this.homeScore = Integer.parseInt(s[0]);
             this.awayScore = Integer.parseInt(s[1]);
-            this.oponent = oponent;
+            this.opponent = opponent;
             this.h_a = h_a;
             if(homeScore > awayScore) {
                 points = 3;
@@ -279,22 +274,35 @@ public class Team implements Comparable<Team> {
             } else {
                 points = 1;
             }
-            this.totalPoints = pointsPreviously + points;
-
-            if(team.equals("CHE") && points == 0) {
-                String where = (h_a.equalsIgnoreCase("home"))? " at home" : " away";
-                System.out.print("GW" + gameWeek + "Chelsea " + where + " against " + oponent +  ": " + score + " [" + homeScore + "-" + awayScore);
-                System.out.println(". points:" + points + "   total=" + totalPoints);
-            }
         }
 
-        public TeamStats(GameWeekStat gws, int pointsPreviously) {
-            this(gws.getGameweek(), gws.getTeam(), gws.getScore(), gws.getOpponent(), gws.getH_A(), pointsPreviously);
+        public TeamStats(GameWeekStat gws) {
+            this(gws.getGameweek(), gws.getTeam(), gws.getScore(), gws.getOpponent(), gws.getH_A());
         }
 
         public String toString() {
             String where = (h_a.equals("home"))? " at home" : " away";
-            return "GW " + gameWeek + ": " + team +  where + " against " + oponent + ": " + score;
+            return "GW " + gameWeek + ": " + team +  where + " against " + opponent + ": " + score;
+        }
+
+        public void setDoubleGw(TeamStats doubleGw) {
+            this.doubleGw = doubleGw;
+        }
+
+        public void setDoubleGw(GameWeekStat doubleGw) {
+            this.doubleGw = new TeamStats(doubleGw);
+        }
+
+        public TeamStats getDoubleGw() {
+            return doubleGw;
+        }
+
+        public boolean isDouble() {
+            return doubleGw != null;
+        }
+
+        public int getPoints() {
+            return (isDouble())? points + doubleGw.getPoints() : points;
         }
     }
 }

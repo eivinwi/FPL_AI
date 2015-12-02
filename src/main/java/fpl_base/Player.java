@@ -9,15 +9,18 @@ public class Player implements Comparable<Player> {
     private double price;
     private int totalPoints;
 
-//    ArrayList<fpl_base.GameWeekStat> stats;
-    HashMap<Double, GameWeekStat> stats;
+    //ArrayList<fpl_base.GameWeekStat> stats;
+    //HashMap<Double, GameWeekStat> stats;
+
+    GameWeekStat[] stats;
 
     public Player(String name, double initialPrice, int totalPoints) {
         this.id = 0;
         this.name = name;
         this.price = initialPrice;
         this.totalPoints = totalPoints;
-        this.stats = new HashMap<>();
+        //this.stats = new HashMap<>();
+        stats = new GameWeekStat[39];
     }
 
     public Player(String name, double initialPrice) {
@@ -55,10 +58,10 @@ public class Player implements Comparable<Player> {
 
     public int getTotalPointsAtGw(double gw) {
         int points = 0;
-        for(double d = 1.0; d < gw; d++) {
+        for(int i = 1; i < gw; i++) {
             //TODO: better solution (start with empty gameweeks)
-            if(stats.get(d) != null) {
-                points += stats.get(d).getPoints();
+            if(stats[i] != null) {
+                points += stats[i].getPoints();
             }
         }
         return points;
@@ -68,36 +71,36 @@ public class Player implements Comparable<Player> {
         this.totalPoints = totalPoints;
     }
 
-    public boolean hasStats(double round) {
-        return stats.containsKey(round);
+    public boolean hasStats(int round) {
+        return stats[round] != null;
     }
 
     public void addStats(GameWeekStat gameWeekStat) {
-        stats.put(gameWeekStat.getGameweek(), gameWeekStat);
+        stats[gameWeekStat.getGameweek()] = gameWeekStat;
     }
 
-    public GameWeekStat getStats(double round) {
-        return (hasStats(round)? stats.get(round) : new GameWeekStat());
+    public GameWeekStat getStats(int round) {
+        return (hasStats(round)? stats[round] : new GameWeekStat());
     }
 
     public String getType() {
         return "NaN";
     }
 
-    public void printStats(double gw) {
+    public void printStats(int gw) {
         System.out.println("=== STATS ===");
        // System.out.println(name + ", " + position + ", " + team + ".");
-        stats.get(gw).print();
+        stats[gw].print();
     }
 
     public void printAll() {
         System.out.println("=== STATS ===");
         //System.out.println(name + ", " + position + ", " + team + ".");
-        for(double d = 1.0; d < 38.0; d++) {
-            if(hasStats(d)) {
-                getStats(d).print();
+        for(int i = 1; i < 38; i++) {
+            if(hasStats(i)) {
+                getStats(i).print();
             } else {
-                 System.out.println(name + ", GW" + d + ": did not play."); //TODO: connect to team
+                 System.out.println(name + ", GW" + i + ": did not play."); //TODO: connect to team
             }
         }
     }

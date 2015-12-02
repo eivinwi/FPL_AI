@@ -1,19 +1,17 @@
 package fpl_base;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.TreeSet;
+import java.util.*;
 
 @SuppressWarnings("unused")
 public class League {
     //TODO: redo list implementation
-    private TreeSet<Team> teams;
+    private LinkedList<Team> teams;
     //private SortedList<Team> teams;
 
     public League() {
         //teams = new SortedList<Team>();
-        teams = new TreeSet<>();
+        //teams = new TreeSet<>();
+        teams = new LinkedList<>();
     }
 
     public void addTeam(Team team) {
@@ -38,7 +36,8 @@ public class League {
         return null;
     }
 
-    public TreeSet<Team> getTeams() {
+    public LinkedList<Team> getTeams() {
+        Collections.sort(teams);
         return teams;
     }
 
@@ -76,7 +75,7 @@ public class League {
         }
     }
 
-    public void showTable(double gw) {
+    public void showTable(int gw) {
         System.out.println("Barclays Premier fpl_base.League - teams:");
         for(Team t : teams) {
             System.out.println(t.getName() + ":  " + t.totalPointsAtGameweek(gw) + "  (" + t.totalMatches() + ")");
