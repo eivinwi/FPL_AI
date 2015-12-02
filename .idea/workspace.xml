@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="dcf10852-1bd5-4729-9ac2-91cf70684cba" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/fpl_base/Comparators.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fpl_base/League.java" afterPath="$PROJECT_DIR$/src/main/java/fpl_base/League.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fpl_base/Main.java" afterPath="$PROJECT_DIR$/src/main/java/fpl_base/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fpl_base/Player.java" afterPath="$PROJECT_DIR$/src/main/java/fpl_base/Player.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fpl_base/PlayerPool.java" afterPath="$PROJECT_DIR$/src/main/java/fpl_base/PlayerPool.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fpl_base/Team.java" afterPath="$PROJECT_DIR$/src/main/java/fpl_base/Team.java" />
-    </list>
+    <list default="true" id="dcf10852-1bd5-4729-9ac2-91cf70684cba" name="Default" comment="" />
     <ignored path="FPL_AI.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -71,20 +63,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/fpl_base/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7512521">
-              <caret line="31" column="5" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Player.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Player.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/fpl_base/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state vertical-scroll-proportion="-0.22537562">
               <caret line="68" column="51" selection-start-line="68" selection-start-column="51" selection-end-line="68" selection-end-column="51" />
               <folding>
                 <element signature="e#46#73#0" expanded="true" />
@@ -777,12 +769,12 @@
       <option name="number" value="Default" />
       <updated>1448713539566</updated>
       <workItem from="1449055983014" duration="4274000" />
-      <workItem from="1449070762471" duration="5330000" />
+      <workItem from="1449070762471" duration="5518000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9604000" />
+    <option name="totallyTimeSpent" value="9792000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="24" width="1142" height="1176" extended-state="0" />
@@ -1185,9 +1177,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fpl_base/Player.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/fpl_base/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fpl_base/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.22537562">
           <caret line="68" column="51" selection-start-line="68" selection-start-column="51" selection-end-line="68" selection-end-column="51" />
           <folding>
             <element signature="e#46#73#0" expanded="true" />
@@ -1206,14 +1206,6 @@
             <element signature="e#2979#2980#0" expanded="true" />
             <element signature="e#3019#3020#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fpl_base/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7512521">
-          <caret line="31" column="5" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
