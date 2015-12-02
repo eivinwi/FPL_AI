@@ -192,7 +192,7 @@ public class Team implements Comparable<Team> {
         }
     }
 
-    public void showPlayersByGw(double gw) {
+    public void showPlayersByGw(int gw) {
         System.out.println(getName() + " players:");
         Collections.sort(goalKeepers);
         Collections.sort(defenders);

@@ -1,16 +1,19 @@
 package fpl_base;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 @SuppressWarnings("unused")
 public class League {
     //TODO: redo list implementation
     private LinkedList<Team> teams;
+    PlayerPool players;
     //private SortedList<Team> teams;
 
-    public League() {
+    public League(PlayerPool players) {
         //teams = new SortedList<Team>();
         //teams = new TreeSet<>();
+        this.players = players;
         teams = new LinkedList<>();
     }
 
@@ -67,6 +70,60 @@ public class League {
         return listOfTeams;
     }
 
+    public List<GoalKeeper> topGk(int n) {
+        return top(players.getGoalKeepers(), n);
+    }
+
+    public List<Defender> topDef(int n) {
+        return top(players.getDefenders(), n);
+    }
+
+    public List<Midfielder> topMid(int n) {
+        return top(players.getMidfielders(), n);
+    }
+
+    public List<Striker> topStr(int n) {
+        return top(players.getStrikers(), n);
+    }
+
+    public List top(LinkedList list, int n) {
+        if(n < 1) {
+            n = list.size();
+        }
+        Comparator<Player> pointComparator = (Player p1, Player p2) -> (int) (p2.getTotalPoints() - p1.getTotalPoints());
+        Collections.sort(list, pointComparator);
+        return list.subList(0, n);
+    }
+
+    public List topAverage(LinkedList list, int n) {
+        if(n < 1) {
+            n = list.size();
+        }
+        Comparator<Player> pointComparator = (Player p1, Player p2) ->
+                (int) (p2.getTotalPoints()/p2.matchesPlayed() - p1.getTotalPoints()/p1.matchesPlayed());
+        Collections.sort(list, pointComparator);
+        return list.subList(0, n);
+    }
+
+    public List pointsPerMin(LinkedList list, int n) {
+        if(n < 1) {
+            n = list.size();
+        }
+        Comparator<Player> pointComparator = (Player p1, Player p2) ->
+                p2.pointsPerMin().compareTo(p1.pointsPerMin());
+        Collections.sort(list, pointComparator);
+        return list.subList(0, n);
+    }
+
+    public List pointsPerMatch(LinkedList list, int n) {
+        if(n < 1) {
+            n = list.size();
+        }
+        Comparator<Player> pointComparator = (Player p1, Player p2) ->
+                p2.pointsPerMatch().compareTo(p1.pointsPerMatch());
+        Collections.sort(list, pointComparator);
+        return list.subList(0, n);
+    }
 
     public void showTeams() {
         System.out.println("Barclays Premier fpl_base.League - teams:");

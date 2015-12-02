@@ -22,15 +22,18 @@ public class Main {
 
       //  System.out.println("GW " + 38.0 + ": " + league.getTeam("LIV").totalPointsAtGameweek(38.0));
      //   league.showTable(38.0);
-        for(Team t : league.getTeams()) {
-            System.out.println(t.getName() + ": " + t.totalPoints());
+       // for(Team t : league.getTeams()) {
+         //   System.out.println(t.getName() + ": " + t.totalPoints());
+       // }
+        for(Object o : league.pointsPerMin(players.getMidfielders(), 0)) {
+            Player p = (Player) o;
+            System.out.println(p.getName() + ": " + p.pointsPerMin());
         }
-
     }
 
     protected static void setup() {
-        league = new League();
         players = new PlayerPool();
+        league = new League(players);
 
         readFile();
 

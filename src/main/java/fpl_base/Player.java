@@ -27,7 +27,6 @@ public class Player implements Comparable<Player> {
         this(name, initialPrice, 0);
     }
 
-
     public int getId() {
         return id;
     }
@@ -53,18 +52,25 @@ public class Player implements Comparable<Player> {
     }
 
     public int getTotalPoints() {
-        return totalPoints;
+        return getTotalPointsAtGw(39);
     }
 
-    public int getTotalPointsAtGw(double gw) {
+    public int getTotalPointsAtGw(int gw) {
         int points = 0;
         for(int i = 1; i < gw; i++) {
-            //TODO: better solution (start with empty gameweeks)
             if(stats[i] != null) {
                 points += stats[i].getPoints();
             }
         }
         return points;
+    }
+
+    public Double pointsPerMin() {
+        return ((double) getTotalPoints() /(double) minutesPlayed());
+    }
+
+    public Double pointsPerMatch() {
+        return ((double) getTotalPoints() /(double) matchesPlayed());
     }
 
     public void setTotalPoints(int totalPoints) {
@@ -85,6 +91,44 @@ public class Player implements Comparable<Player> {
 
     public String getType() {
         return "NaN";
+    }
+
+    public int matchesPlayed(int week) {
+        int played = 0;
+        for(int i = 1; i < week; i++) {
+            GameWeekStat gw = stats[i];
+            if(gw != null && gw.getMinutesPlayed() > 0) {
+                played++;
+            }
+        }
+        return played;
+    }
+
+    public int matchesPlayed() {
+        return matchesPlayed(39);
+    }
+
+    public int minutesPlayed(int week) {
+        int played = 0;
+        for(int i = 1; i < week; i++) {
+            GameWeekStat gw = stats[i];
+            if(gw != null) {
+                played += gw.getMinutesPlayed();
+            }
+        }
+        return played;
+    }
+
+    public int minutesPlayed() {
+        return minutesPlayed(39);
+    }
+
+    public double averagePoints(int gw) {
+        return getTotalPointsAtGw(gw) / matchesPlayed(gw);
+    }
+
+    public double averagePoints() {
+        return averagePoints(39);
     }
 
     public void printStats(int gw) {
