@@ -123,11 +123,33 @@ public class Player implements Comparable<Player> {
         return minutesPlayed(39);
     }
 
-    public double averagePoints(int gw) {
-        return getTotalPointsAtGw(gw) / matchesPlayed(gw);
+    public int goals() {
+        int goals = 0;
+        for(GameWeekStat gws : stats) {
+            if (gws != null) {
+                goals += gws.getGoalsScored();
+            }
+        }
+        return goals;
     }
 
-    public double averagePoints() {
+    public Double goalsPerMin() {
+        return (double) goals() / (double) minutesPlayed();
+    }
+
+    public Double minsPerGoal() {
+        return (double) minutesPlayed() / (double) goals();
+    }
+
+    public Double goalsPerMatch() {
+        return (double) goals() / (double) matchesPlayed();
+    }
+
+    public Double averagePoints(int gw) {
+        return (double) getTotalPointsAtGw(gw) / (double) matchesPlayed(gw);
+    }
+
+    public Double averagePoints() {
         return averagePoints(39);
     }
 

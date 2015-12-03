@@ -1,5 +1,8 @@
 package fpl_base;
 
+/*
+ * NOTE: not all methods are optimized for double gameweeks (or working at all, really..)
+ */
 @SuppressWarnings("unused")
 public class GameWeekStat {
     private String name;
@@ -10,7 +13,7 @@ public class GameWeekStat {
     private int goalsConceded;
     private int ownGoals;
     private int penaltiesSaved;
-    private int pentaltiesMissed;
+    private int penaltiesMissed;
     private int yellowCards;
     private int redCards;
     private int saves;
@@ -26,7 +29,7 @@ public class GameWeekStat {
     private int gameweek;
     private String position;
     private String difficultyRank;
-    private String getDifficultyDesc;
+    private String difficultyDesc;
     private int PID;
     private double ownedPercent;
     private String date;
@@ -51,7 +54,7 @@ public class GameWeekStat {
             this.goalsConceded = Integer.parseInt(s[5]);
             this.ownGoals = Integer.parseInt(s[6]);
             this.penaltiesSaved = Integer.parseInt(s[7]);
-            this.pentaltiesMissed = Integer.parseInt(s[8]);
+            this.penaltiesMissed = Integer.parseInt(s[8]);
             this.yellowCards = Integer.parseInt(s[9]);
             this.redCards = Integer.parseInt(s[10]);
             this.saves = Integer.parseInt(s[11]);
@@ -66,7 +69,7 @@ public class GameWeekStat {
             this.gameweek = Integer.parseInt(s[20]); //s[20].contains(".")? Double.parseDouble(s[20]) TODO: må fikses før!
             this.position = s[21];
             this.difficultyRank = s[22];
-            this.getDifficultyDesc = s[23];
+            this.difficultyDesc = s[23];
             this.PID = Integer.parseInt(s[24]);
             this.ownedPercent = s[25].contains(".")? Double.parseDouble(s[25]) : Integer.parseInt(s[25]);
             this.date = s[26];
@@ -85,7 +88,7 @@ public class GameWeekStat {
         this.goalsConceded = 0;
         this.ownGoals = 0;
         this.penaltiesSaved = 0;
-        this.pentaltiesMissed = 0;
+        this.penaltiesMissed = 0;
         this.yellowCards = 0;
         this.redCards = 0;
         this.saves = 0;
@@ -100,7 +103,7 @@ public class GameWeekStat {
         this.gameweek = 0;
         this.position = "NaN";
         this.difficultyRank = "NaN";
-        this.getDifficultyDesc = "NaN";
+        this.difficultyDesc = "NaN";
         this.PID = 0;
         this.ownedPercent = 0.0;
         this.date = "NaN";
@@ -114,63 +117,63 @@ public class GameWeekStat {
     }
 
     public int getMinutesPlayed() {
-        return minutesPlayed;
+        return (doubleGw == null)? minutesPlayed : minutesPlayed + doubleGw.getMinutesPlayed();
     }
 
     public int getGoalsScored() {
-        return goalsScored;
+        return (doubleGw == null)? goalsScored : goalsScored + doubleGw.getGoalsScored();
     }
 
     public int getAssists() {
-        return assists;
+        return (doubleGw == null)? assists : assists + doubleGw.getAssists();
     }
 
     public int getCleanSheet() {
-        return cleanSheet;
+        return (doubleGw == null)? cleanSheet : cleanSheet + doubleGw.getCleanSheet();
     }
 
     public int getGoalsConceded() {
-        return goalsConceded;
+        return (doubleGw == null)? goalsConceded : goalsConceded + doubleGw.getGoalsConceded();
     }
 
     public int getOwnGoals() {
-        return ownGoals;
+        return (doubleGw == null)? ownGoals : ownGoals + doubleGw.getOwnGoals();
     }
 
     public int getPenaltiesSaved() {
-        return penaltiesSaved;
+        return (doubleGw == null)? penaltiesSaved : penaltiesSaved + doubleGw.getPenaltiesSaved();
     }
 
-    public int getPentaltiesMissed() {
-        return pentaltiesMissed;
+    public int getPenaltiesMissed() {
+        return (doubleGw == null)? penaltiesMissed : penaltiesMissed + doubleGw.getPenaltiesMissed();
     }
 
     public int getYellowCards() {
-        return yellowCards;
+        return (doubleGw == null)? yellowCards : yellowCards + doubleGw.getYellowCards();
     }
 
     public int getRedCards() {
-        return redCards;
+        return (doubleGw == null)? redCards : redCards + doubleGw.getRedCards();
     }
 
     public int getSaves() {
-        return saves;
+        return (doubleGw == null)? saves : saves + doubleGw.getSaves();
     }
 
     public int getBonus() {
-        return bonus;
+        return (doubleGw == null)? bonus : bonus + doubleGw.getBonus();
     }
 
     public int getEA_SPORTS_PPI() {
-        return EA_SPORTS_PPI;
+        return (doubleGw == null)? EA_SPORTS_PPI : EA_SPORTS_PPI + doubleGw.getEA_SPORTS_PPI();
     }
 
     public int getBonusSystemScoring() {
-        return bonusSystemScoring;
+        return (doubleGw == null)? bonusSystemScoring : bonusSystemScoring + doubleGw.getBonusSystemScoring();
     }
 
     public int getPoints() {
-        return points;
+        return (doubleGw == null)? points : points + doubleGw.getPoints();
     }
 
     public String getTeam() {
@@ -178,15 +181,15 @@ public class GameWeekStat {
     }
 
     public String getScore() {
-        return score;
+        return (doubleGw == null)? score : score + " and " + doubleGw.getScore();
     }
 
     public String getOpponent() {
-        return opponent;
+        return (doubleGw == null) ? opponent : opponent + " and " + doubleGw.getOpponent();
     }
 
     public String getH_A() {
-        return H_A;
+        return (doubleGw == null)? H_A : H_A + " and " + doubleGw.getH_A();
     }
 
     public int getGameweek() {
@@ -198,11 +201,11 @@ public class GameWeekStat {
     }
 
     public String getDifficultyRank() {
-        return difficultyRank;
+        return (doubleGw == null)? difficultyRank : difficultyRank + " and " + doubleGw.getDifficultyRank();
     }
 
-    public String getGetDifficultyDesc() {
-        return getDifficultyDesc;
+    public String getDifficultyDesc() {
+        return (doubleGw == null)? difficultyDesc : difficultyDesc + " and " + doubleGw.getDifficultyDesc();
     }
 
     public int getPID() {
@@ -214,7 +217,7 @@ public class GameWeekStat {
     }
 
     public String getDate() {
-        return date;
+        return (doubleGw == null)? date : date + " and " + doubleGw.getDate();
     }
 
     public String getKickoffTime() {

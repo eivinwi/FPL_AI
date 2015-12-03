@@ -25,9 +25,9 @@ public class Main {
        // for(Team t : league.getTeams()) {
          //   System.out.println(t.getName() + ": " + t.totalPoints());
        // }
-        for(Object o : league.pointsPerMin(players.getMidfielders(), 0)) {
+        for(Object o : league.goalsPerMin(players.getStrikers(), 0)) {
             Player p = (Player) o;
-            System.out.println(p.getName() + ": " + p.pointsPerMin());
+            System.out.println(p.getName() + " (" + p.matchesPlayed() + "," + p.goals() + "): " + p.minsPerGoal());
         }
     }
 

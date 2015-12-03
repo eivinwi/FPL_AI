@@ -125,6 +125,37 @@ public class League {
         return list.subList(0, n);
     }
 
+    public List goalsPerMin(LinkedList list, int n) {
+        if(n < 1) {
+            n = list.size();
+        }
+        Comparator<Player> pointComparator = (Player p1, Player p2) ->
+                p2.goalsPerMin().compareTo(p1.goalsPerMin());
+        Collections.sort(list, pointComparator);
+        return list.subList(0, n);
+    }
+
+    public List minsPerGoal(LinkedList list, int n) {
+        if(n < 1) {
+            n = list.size();
+        }
+        Comparator<Player> pointComparator = (Player p1, Player p2) ->
+                p2.minsPerGoal().compareTo(p1.minsPerGoal());
+        Collections.sort(list, pointComparator);
+        return list.subList(0, n);
+    }
+
+
+    public List goalsPerMatch(LinkedList list, int n) {
+        if(n < 1) {
+            n = list.size();
+        }
+        Comparator<Player> pointComparator = (Player p1, Player p2) ->
+                p2.goalsPerMatch().compareTo(p1.goalsPerMatch());
+        Collections.sort(list, pointComparator);
+        return list.subList(0, n);
+    }
+
     public void showTeams() {
         System.out.println("Barclays Premier fpl_base.League - teams:");
         for(Team t : teams) {
