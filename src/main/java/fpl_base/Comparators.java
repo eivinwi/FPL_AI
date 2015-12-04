@@ -1,8 +1,7 @@
 package fpl_base;
 
 import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+
 
 /**
  * Created by eivwik on 02.12.15.
@@ -10,21 +9,21 @@ import java.util.List;
 public class Comparators {
 
 
-    public static <Player> Comparator<Player> comparePoints() {
-        return (e1, e2) -> 0;
-    }
+    public static Comparator<Player> pointComparator = (Player p1, Player p2) -> (int) p2.getTotalPoints() - p1.getTotalPoints();
 
-    public static <Player> Comparator<Player> compareAverage() {
-        return (e1, e2) -> 0;
-    }
+    public static Comparator<Player> pointsPerMatchComparator = (Player p1, Player p2) -> (int) p2.getTotalPoints() / p2.matchesPlayed() - p1.getTotalPoints() / p1.matchesPlayed();
 
-    public static <Player> Comparator<Player> compareGamesPlayed() {
-        return (e1, e2) -> 0;
-    }
+    public static Comparator<Player> pointsPerMinComparator = (Player p1, Player p2) -> p2.pointsPerMin().compareTo(p1.pointsPerMin());
 
-    public static <Player> Comparator<Player> compareMinutesPlayed() {
-        return (e1, e2) -> 0;
-    }
+    public static Comparator<Player> minsPerGoalComparator = (Player p1, Player p2) -> p2.minsPerGoal().compareTo(p1.minsPerGoal());
+
+    public static Comparator<Player> goalsPerMinComparator = (Player p1, Player p2) -> p2.goalsPerMin().compareTo(p1.goalsPerMin());
+
+    public static Comparator<Player> goalsPerMatchComparator = (Player p1, Player p2) -> p2.goalsPerMatch().compareTo(p1.goalsPerMatch());
+
+    public static Comparator<Team> teamPlayerPointsComparator = (Team t1, Team t2) -> t2.totalPointsAllPlayers().compareTo(t1.totalPointsAllPlayers());
+
+    public static Comparator<Team> teamPointComparator = (Team t1, Team t2) -> t2.getPoints() - t1.getPoints();
 
 
 }

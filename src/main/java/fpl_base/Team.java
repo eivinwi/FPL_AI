@@ -220,6 +220,23 @@ public class Team implements Comparable<Team> {
         return stats[gw] != null;
     }
 
+    public Integer totalPointsAllPlayers() {
+        int points = 0;
+        for(GoalKeeper gk : goalKeepers) {
+            points += gk.getTotalPoints();
+        }
+        for(Defender def : defenders) {
+            points += def.getTotalPoints();
+        }
+        for(Midfielder mid : midfielders) {
+            points += mid.getTotalPoints();
+        }
+        for(Striker str : strikers) {
+            points += str.getTotalPoints();
+        }
+        return points;
+    }
+
     @Override
     public boolean equals(Object o) {
        return (o instanceof Team) && (this.name.equals(((Team) o).getName()));

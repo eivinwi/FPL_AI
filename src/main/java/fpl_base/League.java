@@ -3,6 +3,8 @@ package fpl_base;
 import java.lang.reflect.Array;
 import java.util.*;
 
+import static fpl_base.Comparators.*;
+
 @SuppressWarnings("unused")
 public class League {
     //TODO: redo list implementation
@@ -70,6 +72,15 @@ public class League {
         return listOfTeams;
     }
 
+    public List sortAndCompare(LinkedList list, int n, Comparator comparator) {
+        Collections.sort(list, comparator);
+        return list.subList(0, (n > 0)? n : list.size());
+    }
+
+    public List top(LinkedList list, int n) {
+        return sortAndCompare(list, n, pointComparator);
+    }
+
     public List<GoalKeeper> topGk(int n) {
         return top(players.getGoalKeepers(), n);
     }
@@ -86,74 +97,37 @@ public class League {
         return top(players.getStrikers(), n);
     }
 
-    public List top(LinkedList list, int n) {
-        if(n < 1) {
-            n = list.size();
-        }
-        Comparator<Player> pointComparator = (Player p1, Player p2) -> (int) (p2.getTotalPoints() - p1.getTotalPoints());
-        Collections.sort(list, pointComparator);
-        return list.subList(0, n);
-    }
-
-    public List topAverage(LinkedList list, int n) {
-        if(n < 1) {
-            n = list.size();
-        }
-        Comparator<Player> pointComparator = (Player p1, Player p2) ->
-                (int) (p2.getTotalPoints()/p2.matchesPlayed() - p1.getTotalPoints()/p1.matchesPlayed());
-        Collections.sort(list, pointComparator);
-        return list.subList(0, n);
+    public List pointsPerMatch(LinkedList list, int n) {
+        return sortAndCompare(list, n, pointsPerMatchComparator);
     }
 
     public List pointsPerMin(LinkedList list, int n) {
-        if(n < 1) {
-            n = list.size();
-        }
-        Comparator<Player> pointComparator = (Player p1, Player p2) ->
-                p2.pointsPerMin().compareTo(p1.pointsPerMin());
-        Collections.sort(list, pointComparator);
-        return list.subList(0, n);
-    }
-
-    public List pointsPerMatch(LinkedList list, int n) {
-        if(n < 1) {
-            n = list.size();
-        }
-        Comparator<Player> pointComparator = (Player p1, Player p2) ->
-                p2.pointsPerMatch().compareTo(p1.pointsPerMatch());
-        Collections.sort(list, pointComparator);
-        return list.subList(0, n);
+        return sortAndCompare(list, n, pointsPerMinComparator);
     }
 
     public List goalsPerMin(LinkedList list, int n) {
-        if(n < 1) {
-            n = list.size();
-        }
-        Comparator<Player> pointComparator = (Player p1, Player p2) ->
-                p2.goalsPerMin().compareTo(p1.goalsPerMin());
-        Collections.sort(list, pointComparator);
-        return list.subList(0, n);
+        return sortAndCompare(list, n, goalsPerMinComparator);
     }
 
     public List minsPerGoal(LinkedList list, int n) {
-        if(n < 1) {
-            n = list.size();
-        }
-        Comparator<Player> pointComparator = (Player p1, Player p2) ->
-                p2.minsPerGoal().compareTo(p1.minsPerGoal());
-        Collections.sort(list, pointComparator);
-        return list.subList(0, n);
+        return sortAndCompare(list, n, minsPerGoalComparator);
+    }
+
+    public List goalsPerMatch(LinkedList list, int n) {
+        return sortAndCompare(list, n, goalsPerMatchComparator);
     }
 
 
-    public List goalsPerMatch(LinkedList list, int n) {
-        if(n < 1) {
-            n = list.size();
-        }
-        Comparator<Player> pointComparator = (Player p1, Player p2) ->
-                p2.goalsPerMatch().compareTo(p1.goalsPerMatch());
-        Collections.sort(list, pointComparator);
-        return list.subList(0, n);
+    public List<Team> totalPointsAllTeams() {
+        List<Team> t = teams;
+        Collections.sort(t, teamPlayerPointsComparator);
+        return t;
+    }
+
+    public List<Team> table() {
+        List<Team> t = teams;
+        Collections.sort(teams, teamPointComparator);
+        return t;
     }
 
     public void showTeams() {
@@ -163,9 +137,10 @@ public class League {
         }
     }
 
+
     public void showTable(int gw) {
         System.out.println("Barclays Premier fpl_base.League - teams:");
-        for(Team t : teams) {
+        for(Team t : table()) {
             System.out.println(t.getName() + ":  " + t.totalPointsAtGameweek(gw) + "  (" + t.totalMatches() + ")");
         }
     }

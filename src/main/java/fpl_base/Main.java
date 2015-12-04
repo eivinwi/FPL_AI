@@ -22,12 +22,13 @@ public class Main {
 
       //  System.out.println("GW " + 38.0 + ": " + league.getTeam("LIV").totalPointsAtGameweek(38.0));
      //   league.showTable(38.0);
-       // for(Team t : league.getTeams()) {
-         //   System.out.println(t.getName() + ": " + t.totalPoints());
-       // }
-        for(Object o : league.goalsPerMin(players.getStrikers(), 0)) {
+       /* for(Object o : league.bestTeams()) {
+            Team t = (Team) o;
+            System.out.println(t.getName() + ": " + t.totalPointsAllPlayers());
+        }*/
+        for(Object o : league.top(players.getStrikers(), 0)) {
             Player p = (Player) o;
-            System.out.println(p.getName() + " (" + p.matchesPlayed() + "," + p.goals() + "): " + p.minsPerGoal());
+            System.out.println(p.getName() + " (" + p.matchesPlayed() + "," + p.goals() + "): " + p.getTotalPoints());
         }
     }
 
