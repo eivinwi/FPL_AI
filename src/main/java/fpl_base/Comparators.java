@@ -2,16 +2,12 @@ package fpl_base;
 
 import java.util.Comparator;
 
-
-/**
- * Created by eivwik on 02.12.15.
- */
 public class Comparators {
 
 
-    public static Comparator<Player> pointComparator = (Player p1, Player p2) -> (int) p2.getTotalPoints() - p1.getTotalPoints();
+    public static Comparator<Player> pointComparator = (Player p1, Player p2) -> p2.getTotalPoints() - p1.getTotalPoints();
 
-    public static Comparator<Player> pointsPerMatchComparator = (Player p1, Player p2) -> (int) p2.getTotalPoints() / p2.matchesPlayed() - p1.getTotalPoints() / p1.matchesPlayed();
+    public static Comparator<Player> pointsPerMatchComparator = (Player p1, Player p2) -> p2.getTotalPoints() / p2.matchesPlayed() - p1.getTotalPoints() / p1.matchesPlayed();
 
     public static Comparator<Player> pointsPerMinComparator = (Player p1, Player p2) -> p2.pointsPerMin().compareTo(p1.pointsPerMin());
 

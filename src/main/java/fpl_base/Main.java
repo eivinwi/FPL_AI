@@ -11,26 +11,17 @@ public class Main {
                 "");
         setup();
 
-       // LinkedList<fpl_base.Player> pgw = league.getTeam("SWA").getTeamInGameWeek(28.0);
-        /*for(fpl_base.Player p : pgw) {
-            System.out.print(p.getName() + "(" + p.getStats(1.0).getMinutesPlayed() + "), ");
-        }
-        System.out.println();*/
-       // league.getTeam("SWA").showPlayers();
-        //league.getTeam("MUN").showPlayersByGw(38.0);
-        //league.showTeams();
 
-      //  System.out.println("GW " + 38.0 + ": " + league.getTeam("LIV").totalPointsAtGameweek(38.0));
-     //   league.showTable(38.0);
-       /* for(Object o : league.bestTeams()) {
-            Team t = (Team) o;
-            System.out.println(t.getName() + ": " + t.totalPointsAllPlayers());
-        }*/
+        //testPrint();
+    }
+
+    public static void testPrint() {
         for(Object o : league.top(players.getStrikers(), 0)) {
             Player p = (Player) o;
             System.out.println(p.getName() + " (" + p.matchesPlayed() + "," + p.goals() + "): " + p.getTotalPoints());
         }
     }
+
 
     protected static void setup() {
         players = new PlayerPool();

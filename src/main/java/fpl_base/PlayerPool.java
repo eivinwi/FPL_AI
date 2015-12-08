@@ -8,7 +8,7 @@ import java.util.function.Predicate;
 @SuppressWarnings("unused")
 public class PlayerPool {
     HashMap<String, Player> players;
-    HashSet<Player> pool = new HashSet<Player>();
+   // HashSet<Player> pool = new HashSet<Player>();
 
     private LinkedList<GoalKeeper> goalKeepers;
     private LinkedList<Defender> defenders;
@@ -70,6 +70,10 @@ public class PlayerPool {
 
     public boolean hasPlayer(Player player) {
         return players.containsKey(player.getName().toLowerCase());
+    }
+
+    public HashMap<String,Player> getAllPlayers() {
+        return players;
     }
 
 }
