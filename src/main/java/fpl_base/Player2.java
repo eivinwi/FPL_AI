@@ -1,9 +1,6 @@
 package fpl_base;
 
-/**
- * Created by eivwik on 08.12.15.
- */
-@SuppressWarnings("Duplicates")
+@SuppressWarnings("unused")
 public class Player2 {
     private static final int rounds = 39; //38+1 to avoid having to constantly convert gameweek to -1 for arrays
     private String name;
@@ -47,6 +44,239 @@ public class Player2 {
 
     public Player2() {
 
+    }
+
+    public static int getRounds() {
+        return rounds;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean[] getPlayed() {
+        return played;
+    }
+
+    public double[] getPrice() {
+        return price;
+    }
+
+    public double[] getOwnedPercent() {
+        return ownedPercent;
+    }
+
+    public int[] getPoints() {
+        return points;
+    }
+
+    public double getSeasonStartPrice() {
+        return seasonStartPrice;
+    }
+
+    public double getSeasonEndprice() {
+        return seasonEndprice;
+    }
+
+    public int[] getMinutesPlayed() {
+        return minutesPlayed;
+    }
+
+    public int[] getGoals() {
+        return goals;
+    }
+
+    public int[] getAssists() {
+        return assists;
+    }
+
+    public int[] getCleanSheet() {
+        return cleanSheet;
+    }
+
+    public int[] getGoalsConceded() {
+        return goalsConceded;
+    }
+
+    public int[] getOwnGoals() {
+        return ownGoals;
+    }
+
+    public int[] getPenaltiesSaved() {
+        return penaltiesSaved;
+    }
+
+    public int[] getPenaltiesMissed() {
+        return penaltiesMissed;
+    }
+
+    public int[] getYellowCards() {
+        return yellowCards;
+    }
+
+    public int[] getRedCards() {
+        return redCards;
+    }
+
+    public int[] getSaves() {
+        return saves;
+    }
+
+    public int[] getBonus() {
+        return bonus;
+    }
+
+    public int[] getBonusSystemScoring() {
+        return bonusSystemScoring;
+    }
+
+    public int[] getEA_SPORTS_PPI() {
+        return EA_SPORTS_PPI;
+    }
+
+    public String[] getOpponent() {
+        return opponent;
+    }
+
+    public boolean[] getAtHome() {
+        return atHome;
+    }
+
+    public String[] getPosititon() {
+        return posititon;
+    }
+
+    public int[] getDifficultyRank() {
+        return difficultyRank;
+    }
+
+    public String[] getDifficultyDesc() {
+        return difficultyDesc;
+    }
+
+    public int[] getPID() {
+        return PID;
+    }
+
+    public String[] getPosition() {
+        return position;
+    }
+
+    public String[] getDate() {
+        return date;
+    }
+
+    public String[] getKickoffTime() {
+        return kickoffTime;
+    }
+
+    public boolean played(int gw) {
+        return played[gw];
+    }
+
+    public double getPrice(int gw) {
+        return price[gw];
+    }
+
+    public double getOwnedPercent(int gw) {
+        return ownedPercent[gw];
+    }
+
+    public int getPoints(int gw) {
+        return points[gw];
+    }
+
+
+    public int getMinutesPlayed(int gw) {
+        return minutesPlayed[gw];
+    }
+
+    public int getGoals(int gw) {
+        return goals[gw];
+    }
+
+    public int getAssists(int gw) {
+        return assists[gw];
+    }
+
+    public int getCleanSheet(int gw) {
+        return cleanSheet[gw];
+    }
+
+    public int getGoalsConceded(int gw) {
+        return goalsConceded[gw];
+    }
+
+    public int getOwnGoals(int gw) {
+        return ownGoals[gw];
+    }
+
+    public int getPenaltiesSaved(int gw) {
+        return penaltiesSaved[gw];
+    }
+
+    public int getPenaltiesMissed(int gw) {
+        return penaltiesMissed[gw];
+    }
+
+    public int getYellowCards(int gw) {
+        return yellowCards[gw];
+    }
+
+    public int getRedCards(int gw) {
+        return redCards[gw];
+    }
+
+    public int getSaves(int gw) {
+        return saves[gw];
+    }
+
+    public int getBonus(int gw) {
+        return bonus[gw];
+    }
+
+    public int getBonusSystemScoring(int gw) {
+        return bonusSystemScoring[gw];
+    }
+
+    public int getEA_SPORTS_PPI(int gw) {
+        return EA_SPORTS_PPI[gw];
+    }
+
+    public String getOpponent(int gw) {
+        return opponent[gw];
+    }
+
+    public boolean getAtHome(int gw) {
+        return atHome[gw];
+    }
+
+    public String getPosititon(int gw) {
+        return posititon[gw];
+    }
+
+    public int getDifficultyRank(int gw) {
+        return difficultyRank[gw];
+    }
+
+    public String getDifficultyDesc(int gw) {
+        return difficultyDesc[gw];
+    }
+
+    public int getPID(int gw) {
+        return PID[gw];
+    }
+
+    public String getPosition(int gw) {
+        return position[gw];
+    }
+
+    public String getDate(int gw) {
+        return date[gw];
+    }
+
+    public String getKickoffTime(int gw) {
+        return kickoffTime[gw];
     }
 
 
@@ -99,6 +329,11 @@ public class Player2 {
             seasonStartPrice = s[28].contains(".")? Double.parseDouble(s[28]) : Integer.parseInt(s[28]);
             seasonEndprice = s[29].contains(".")? Double.parseDouble(s[29]) : Integer.parseInt(s[29]);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return (o instanceof  Player) && getName().equalsIgnoreCase(((Player) o).getName());
     }
 
 }
