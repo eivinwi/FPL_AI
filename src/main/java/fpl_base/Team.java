@@ -122,15 +122,15 @@ public class Team implements Comparable<Team> {
     //TODO: order of collection list??
     public LinkedList<Player> getTeamInGameWeek(int gw) {
         LinkedList<Player> gwTeam = new LinkedList<>();
-        gwTeam.addAll(goalKeepers.stream().filter(player -> player.getStats(gw).getMinutesPlayed() > 0).collect(Collectors.toList()));
-        gwTeam.addAll(defenders.stream().filter(player -> player.getStats(gw).getMinutesPlayed() > 0).collect(Collectors.toList()));
-        gwTeam.addAll(midfielders.stream().filter(player -> player.getStats(gw).getMinutesPlayed() > 0).collect(Collectors.toList()));
-        gwTeam.addAll(strikers.stream().filter(player -> player.getStats(gw).getMinutesPlayed() > 0).collect(Collectors.toList()));
+        gwTeam.addAll(goalKeepers.stream().filter(player -> player.getMinutesPlayed(gw) > 0).collect(Collectors.toList()));
+        gwTeam.addAll(defenders.stream().filter(player -> player.getMinutesPlayed(gw) > 0).collect(Collectors.toList()));
+        gwTeam.addAll(midfielders.stream().filter(player -> player.getMinutesPlayed(gw) > 0).collect(Collectors.toList()));
+        gwTeam.addAll(strikers.stream().filter(player -> player.getMinutesPlayed(gw) > 0).collect(Collectors.toList()));
         return gwTeam;
     }
 
     private List<Player> wasOnTeam(ArrayList<Player> players, int gw) {
-        return players.stream().filter(player -> player.getStats(gw).getMinutesPlayed() > 0).collect(Collectors.toList());
+        return players.stream().filter(player -> player.getMinutesPlayed(gw) > 0).collect(Collectors.toList());
     }
 
     public int totalPointsInGameWeek(int gw) {
@@ -146,7 +146,7 @@ public class Team implements Comparable<Team> {
         int points = 0;
         for(Object o : players) {
             Player player = (Player) o;
-            points += player.getStats(gw).getPoints();
+            points += player.getPoints(gw);
         }
         return points;
     }
@@ -179,16 +179,16 @@ public class Team implements Comparable<Team> {
     public void showPlayers() {
         System.out.println(getName() + " players:");
         for(GoalKeeper gk : goalKeepers) {
-            System.out.println("GK :" + gk.getName() + " (" + gk.getTotalPoints() + ")");
+            System.out.println("GK :" + gk.getName() + " (" + Util.sum(gk.getPoints()) + ")");
         }
         for(Defender def : defenders) {
-            System.out.println("DEF:" + def.getName() + " (" + def.getTotalPoints() + ")");
+            System.out.println("DEF:" + def.getName() + " (" + Util.sum(def.getPoints()) + ")");
         }
         for(Midfielder mid : midfielders) {
-            System.out.println("MID:" + mid.getName() + " (" + mid.getTotalPoints() + ")");
+            System.out.println("MID:" + mid.getName() + " (" + Util.sum(mid.getPoints()) + ")");
         }
         for(Striker str : strikers) {
-            System.out.println("STR:" + str.getName() + " (" + str.getTotalPoints() + ")");
+            System.out.println("STR:" + str.getName() + " (" + Util.sum(str.getPoints()) + ")");
         }
     }
 
@@ -199,16 +199,16 @@ public class Team implements Comparable<Team> {
         Collections.sort(midfielders);
         Collections.sort(strikers);
         for(GoalKeeper gk : goalKeepers) {
-            System.out.println("GK :" + gk.getName() + " (" + gk.getTotalPointsAtGw(gw) + ")");
+            System.out.println("GK :" + gk.getName() + " (" + Util.sum(gk.getPoints(), gw) + ")");
         }
         for(Defender def : defenders) {
-            System.out.println("DEF:" + def.getName() + " (" + def.getTotalPointsAtGw(gw) + ")");
+            System.out.println("DEF:" + def.getName() + " (" + Util.sum(def.getPoints(), gw) + ")");
         }
         for(Midfielder mid : midfielders) {
-            System.out.println("MID:" + mid.getName() + " (" + mid.getTotalPointsAtGw(gw) + ")");
+            System.out.println("MID:" + mid.getName() + " (" + Util.sum(mid.getPoints(), gw) + ")");
         }
         for(Striker str : strikers) {
-            System.out.println("STR:" + str.getName() + " (" + str.getTotalPointsAtGw(gw) + ")");
+            System.out.println("STR:" + str.getName() + " (" + Util.sum(str.getPoints(), gw) + ")");
         }
     }
 
@@ -223,16 +223,16 @@ public class Team implements Comparable<Team> {
     public Integer totalPointsAllPlayers() {
         int points = 0;
         for(GoalKeeper gk : goalKeepers) {
-            points += gk.getTotalPoints();
+            points += Util.sum(gk.getPoints());
         }
         for(Defender def : defenders) {
-            points += def.getTotalPoints();
+            points += Util.sum(def.getPoints());
         }
         for(Midfielder mid : midfielders) {
-            points += mid.getTotalPoints();
+            points += Util.sum(mid.getPoints());
         }
         for(Striker str : strikers) {
-            points += str.getTotalPoints();
+            points += Util.sum(str.getPoints());
         }
         return points;
     }

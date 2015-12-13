@@ -1,185 +1,364 @@
 package fpl_base;
 
-import java.util.HashMap;
-
 @SuppressWarnings("unused")
-public class Player implements Comparable<Player> {
-    private int id;
+public class Player implements Comparable {
+    private static final int rounds = 39; //38+1 to avoid having to constantly convert gameweek to n-1 for arrays
     private String name;
-    private double price;
-    private int totalPoints;
 
-    //ArrayList<fpl_base.GameWeekStat> stats;
-    //HashMap<Double, GameWeekStat> stats;
+    // FPL
+    private boolean[] played = new boolean[rounds];
+    private double[] price = new double[rounds];
+    private double[] ownedPercent = new double[rounds];
+    private int[] points = new int[rounds];
+    private double seasonStartPrice;
+    private double seasonEndprice;
 
-    GameWeekStat[] stats;
+    // FPL Points
+    private int[] minutesPlayed = new int[rounds];
+    private int[] goals = new int[rounds];
+    private int[] assists = new int[rounds];
+    private int[] cleanSheet = new int[rounds];
+    private int[] goalsConceded = new int[rounds];
+    private int[] ownGoals = new int[rounds];
+    private int[] penaltiesSaved = new int[rounds];
+    private int[] penaltiesMissed = new int[rounds];
+    private int[] yellowCards = new int[rounds];
+    private int[] redCards = new int[rounds];
+    private int[] saves = new int[rounds];
+    private int[] bonus = new int[rounds];
+    private int[] bonusSystemScoring = new int[rounds];
+    private int[] EA_SPORTS_PPI = new int[rounds];
 
-    public Player(String name, double initialPrice, int totalPoints) {
-        this.id = 0;
+    // Match
+    private String[] opponent = new String[rounds];
+    private boolean[] atHome = new boolean[rounds];
+    private String[] posititon = new String[rounds];
+    private int[] difficultyRank = new int[rounds];
+    private String[] difficultyDesc = new String[rounds];
+    private int[] PID;
+    private String[] position = new String[rounds]; //TODO: array necessary?
+    private String[] date = new String[rounds];
+    private String[] kickoffTime = new String[rounds];
+
+    public Player(String name) {
         this.name = name;
-        this.price = initialPrice;
-        this.totalPoints = totalPoints;
-        //this.stats = new HashMap<>();
-        stats = new GameWeekStat[39];
     }
 
-    public Player(String name, double initialPrice) {
-        this(name, initialPrice, 0);
+    public Player(String[] s) {
+        this.addStats(s);
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public static int getRounds() {
+        return rounds;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public boolean[] getPlayed() {
+        return played;
     }
 
-    public double getPrice() {
+    public double[] getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public double[] getOwnedPercent() {
+        return ownedPercent;
     }
 
-    public int getTotalPoints() {
-        return getTotalPointsAtGw(39);
-    }
-
-    public int getTotalPointsAtGw(int gw) {
-        int points = 0;
-        for(int i = 1; i < gw; i++) {
-            if(stats[i] != null) {
-                points += stats[i].getPoints();
-            }
-        }
+    public int[] getPoints() {
         return points;
     }
 
-    public Double pointsPerMin() {
-        return ((double) getTotalPoints() /(double) minutesPlayed());
+    public double getSeasonStartPrice() {
+        return seasonStartPrice;
     }
 
-    public Double pointsPerMatch() {
-        return ((double) getTotalPoints() /(double) matchesPlayed());
+    public double getSeasonEndprice() {
+        return seasonEndprice;
     }
 
-    public void setTotalPoints(int totalPoints) {
-        this.totalPoints = totalPoints;
+    public int[] getMinutesPlayed() {
+        return minutesPlayed;
     }
 
-    public boolean hasStats(int round) {
-        return stats[round] != null;
+    public int[] getGoals() {
+        return goals;
     }
 
-    public void addStats(GameWeekStat gameWeekStat) {
-        stats[gameWeekStat.getGameweek()] = gameWeekStat;
+    public int[] getAssists() {
+        return assists;
     }
 
-    public GameWeekStat getStats(int round) {
-        return (hasStats(round)? stats[round] : new GameWeekStat());
+    public int[] getCleanSheet() {
+        return cleanSheet;
     }
 
-    public String getType() {
-        return "NaN";
+    public int[] getGoalsConceded() {
+        return goalsConceded;
     }
 
-    public int matchesPlayed(int week) {
-        int played = 0;
-        for(int i = 1; i < week; i++) {
-            GameWeekStat gw = stats[i];
-            if(gw != null && gw.getMinutesPlayed() > 0) {
-                played++;
-            }
+    public int[] getOwnGoals() {
+        return ownGoals;
+    }
+
+    public int[] getPenaltiesSaved() {
+        return penaltiesSaved;
+    }
+
+    public int[] getPenaltiesMissed() {
+        return penaltiesMissed;
+    }
+
+    public int[] getYellowCards() {
+        return yellowCards;
+    }
+
+    public int[] getRedCards() {
+        return redCards;
+    }
+
+    public int[] getSaves() {
+        return saves;
+    }
+
+    public int[] getBonus() {
+        return bonus;
+    }
+
+    public int[] getBonusSystemScoring() {
+        return bonusSystemScoring;
+    }
+
+    public int[] getEA_SPORTS_PPI() {
+        return EA_SPORTS_PPI;
+    }
+
+    public String[] getOpponent() {
+        return opponent;
+    }
+
+    public boolean[] getAtHome() {
+        return atHome;
+    }
+
+    public String[] getPosititon() {
+        return posititon;
+    }
+
+    public int[] getDifficultyRank() {
+        return difficultyRank;
+    }
+
+    public String[] getDifficultyDesc() {
+        return difficultyDesc;
+    }
+
+    public int[] getPID() {
+        return PID;
+    }
+
+    public String[] getPosition() {
+        return position;
+    }
+
+    public String[] getDate() {
+        return date;
+    }
+
+    public String[] getKickoffTime() {
+        return kickoffTime;
+    }
+
+    public boolean played(int gw) {
+        return played[gw];
+    }
+
+    public double getPrice(int gw) {
+        return price[gw];
+    }
+
+    public double getOwnedPercent(int gw) {
+        return ownedPercent[gw];
+    }
+
+    public int getPoints(int gw) {
+        return points[gw];
+    }
+
+
+    public int getMinutesPlayed(int gw) {
+        return minutesPlayed[gw];
+    }
+
+    public int getGoals(int gw) {
+        return goals[gw];
+    }
+
+    public int getAssists(int gw) {
+        return assists[gw];
+    }
+
+    public int getCleanSheet(int gw) {
+        return cleanSheet[gw];
+    }
+
+    public int getGoalsConceded(int gw) {
+        return goalsConceded[gw];
+    }
+
+    public int getOwnGoals(int gw) {
+        return ownGoals[gw];
+    }
+
+    public int getPenaltiesSaved(int gw) {
+        return penaltiesSaved[gw];
+    }
+
+    public int getPenaltiesMissed(int gw) {
+        return penaltiesMissed[gw];
+    }
+
+    public int getYellowCards(int gw) {
+        return yellowCards[gw];
+    }
+
+    public int getRedCards(int gw) {
+        return redCards[gw];
+    }
+
+    public int getSaves(int gw) {
+        return saves[gw];
+    }
+
+    public int getBonus(int gw) {
+        return bonus[gw];
+    }
+
+    public int getBonusSystemScoring(int gw) {
+        return bonusSystemScoring[gw];
+    }
+
+    public int getEA_SPORTS_PPI(int gw) {
+        return EA_SPORTS_PPI[gw];
+    }
+
+    public String getOpponent(int gw) {
+        return opponent[gw];
+    }
+
+    public boolean getAtHome(int gw) {
+        return atHome[gw];
+    }
+
+    public String getPosititon(int gw) {
+        return posititon[gw];
+    }
+
+    public int getDifficultyRank(int gw) {
+        return difficultyRank[gw];
+    }
+
+    public String getDifficultyDesc(int gw) {
+        return difficultyDesc[gw];
+    }
+
+    public int getPID(int gw) {
+        return PID[gw];
+    }
+
+    public String getPosition(int gw) {
+        return position[gw];
+    }
+
+    public String getDate(int gw) {
+        return date[gw];
+    }
+
+    public String getKickoffTime(int gw) {
+        return kickoffTime[gw];
+    }
+
+    public int matchesPlayed(int gw) {
+        int matches = 0;
+        for(int i = 1; i < gw; i++) {
+            if(minutesPlayed[i] > 0) matches++;
         }
-        return played;
+        return matches;
     }
 
     public int matchesPlayed() {
         return matchesPlayed(39);
     }
 
-    public int minutesPlayed(int week) {
-        int played = 0;
-        for(int i = 1; i < week; i++) {
-            GameWeekStat gw = stats[i];
-            if(gw != null) {
-                played += gw.getMinutesPlayed();
-            }
+    public void addStats(String[] s) {
+        if(s.length < 30) { //Todo: check
+            System.out.println("Line array too short");
+        } else if(s[20].contains(".")) {
+            System.out.println("Double gameweek entered as single.");
         }
-        return played;
-    }
+        int gw = Integer.parseInt(s[20]);
 
-    public int minutesPlayed() {
-        return minutesPlayed(39);
-    }
-
-    public int goals() {
-        int goals = 0;
-        for(GameWeekStat gws : stats) {
-            if (gws != null) {
-                goals += gws.getGoalsScored();
-            }
+        if(played[gw]) {
+            System.out.println("Attempting to re-add gameweek stats.");
         }
-        return goals;
-    }
-
-    public Double goalsPerMin() {
-        return (double) goals() / (double) minutesPlayed();
-    }
-
-    public Double minsPerGoal() {
-        return (double) minutesPlayed() / (double) goals();
-    }
-
-    public Double goalsPerMatch() {
-        return (double) goals() / (double) matchesPlayed();
-    }
-
-    public Double averagePoints(int gw) {
-        return (double) getTotalPointsAtGw(gw) / (double) matchesPlayed(gw);
-    }
-
-    public Double averagePoints() {
-        return averagePoints(39);
-    }
-
-    public void printStats(int gw) {
-        System.out.println("=== STATS ===");
-       // System.out.println(name + ", " + position + ", " + team + ".");
-        stats[gw].print();
-    }
-
-    public void printAll() {
-        System.out.println("=== STATS ===");
-        //System.out.println(name + ", " + position + ", " + team + ".");
-        for(int i = 1; i < 38; i++) {
-            if(hasStats(i)) {
-                getStats(i).print();
-            } else {
-                 System.out.println(name + ", GW" + i + ": did not play."); //TODO: connect to team
+        else {
+            if(name == null) {
+                name = s[0];
             }
+            if(name.equals(s[0])) {
+                System.err.println("Name is not equal: " + s[0] + " and " + name);
+            }
+            minutesPlayed[gw] = Integer.parseInt(s[1]);
+            goals[gw] = Integer.parseInt(s[2]);
+            assists[gw] = Integer.parseInt(s[3]);
+            cleanSheet[gw] = Integer.parseInt(s[4]);
+            goalsConceded[gw] = Integer.parseInt(s[5]);
+            ownGoals[gw] = Integer.parseInt(s[6]);
+            penaltiesSaved[gw] = Integer.parseInt(s[7]);
+            penaltiesMissed[gw] = Integer.parseInt(s[8]);
+            yellowCards[gw] = Integer.parseInt(s[9]);
+            redCards[gw] = Integer.parseInt(s[10]);
+            saves[gw] = Integer.parseInt(s[11]);
+            bonus[gw] = Integer.parseInt(s[12]);
+            EA_SPORTS_PPI[gw] = Integer.parseInt(s[13]);
+            bonusSystemScoring[gw] = Integer.parseInt(s[14]);
+            points[gw] = Integer.parseInt(s[15]);
+
+            //team = s[16]; //TODO: people can change teams internally in PL!!
+            //score = s[17];
+
+            opponent[gw] = s[18];
+            atHome[gw] = s[19].equalsIgnoreCase("home");
+            position[gw] = s[21];
+            difficultyRank[gw] = Integer.parseInt(s[22]);
+            difficultyDesc[gw] = s[23];
+            PID[gw] = Integer.parseInt(s[24]);
+            ownedPercent[gw] = s[25].contains(".")? Double.parseDouble(s[25]) : Integer.parseInt(s[25]);
+            date[gw] = s[26];
+            kickoffTime[gw] = s[27];
+            seasonStartPrice = s[28].contains(".")? Double.parseDouble(s[28]) : Integer.parseInt(s[28]);
+            seasonEndprice = s[29].contains(".")? Double.parseDouble(s[29]) : Integer.parseInt(s[29]);
         }
     }
+
+
 
     @Override
     public boolean equals(Object o) {
-        return (o instanceof  Player) && getName().equalsIgnoreCase(((Player) o).getName());
+        return (o instanceof Player) && getName().equalsIgnoreCase(((Player) o).getName());
     }
 
     @Override
-    public int compareTo(Player p) {
-        if(this.getTotalPoints() > p.getTotalPoints()) return 1;
-        else if(this.getTotalPoints() > p.getTotalPoints()) return -1;
+    public int compareTo(Object o) {
+        Player p = (Player) o;
+        int pThis = Util.sum(this.getPoints());
+        int pP = Util.sum(p.getPoints());
+        if(pThis > pP) return 1;
+        else if(pThis > pP)return -1;
         else return this.getName().compareTo(p.getName());
     }
+
 }

@@ -16,7 +16,7 @@ public class PlayerService {
         return players.getPlayer(name);
     }
 
-    public HashMap<String,Player> getAllPlayers() {
+    public HashMap<String, Player> getAllPlayers() {
         return players.getAllPlayers();
     }
 }

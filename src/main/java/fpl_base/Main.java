@@ -17,7 +17,7 @@ public class Main {
 
     public static void testPrint() {
         for(Object o : league.top(players.getStrikers(), 0)) {
-            Player p = (Player) o;
+            Player3 p = (Player3) o;
             System.out.println(p.getName() + " (" + p.matchesPlayed() + "," + p.goals() + "): " + p.getTotalPoints());
         }
     }
@@ -45,47 +45,53 @@ public class Main {
                     s[20] = gw_num;
                     isDouble = true;
                 }
-                GameWeekStat gameWeekStat = new GameWeekStat(s);
-
-                if(!league.hasTeam(gameWeekStat.getTeam())) {
-                    league.addTeam(new Team(gameWeekStat.getTeam()));
+                //GameWeekStat gameWeekStat = new GameWeekStat(s);
+                String playerName = s[0];
+                String teamName = s[16];
+                String position = s[21];
+                if(!league.hasTeam(teamName)) { //gameWeekStat.getTeam())) {
+                    //league.addTeam(new Team(gameWeekStat.getTeam()));
+                    league.addTeam(new Team(teamName));
                 }
-                Team team = league.getTeam(gameWeekStat.getTeam());
-                if (!players.hasPlayer(gameWeekStat.getName())) {
-                    switch (gameWeekStat.getPosition()) {
+
+                Team team = league.getTeam(teamName);
+                if (!players.hasPlayer(playerName)) {
+                    switch (position) {
                         case "GKP":
-                            GoalKeeper gk = new GoalKeeper(gameWeekStat.getName(), gameWeekStat.getSeasonStartPrice());
+                            GoalKeeper gk = new GoalKeeper(s);
                             players.addPlayer(gk);
                             team.addGoalKeepers(gk);
                             break;
                         case "DEF":
-                            Defender defender = new Defender(gameWeekStat.getName(), gameWeekStat.getSeasonStartPrice());
+                            Defender defender = new Defender(s);
                             players.addPlayer(defender);
                             team.addDefender(defender);
                             break;
                         case "MID":
-                            Midfielder midfielder = new Midfielder(gameWeekStat.getName(), gameWeekStat.getSeasonStartPrice());
+                            Midfielder midfielder = new Midfielder(s);
                             players.addPlayer(midfielder);
                             team.addMidfielder(midfielder);
                             break;
                         case "FWD":
-                            Striker striker = new Striker(gameWeekStat.getName(), gameWeekStat.getSeasonStartPrice());
+                            Striker striker = new Striker(s);
                             players.addPlayer(striker);
                             team.addStriker(striker);
                             break;
                         default:
-                            System.out.println("fpl_base.Player " + gameWeekStat.getName() + " has invalid type:" + gameWeekStat.getPosition() + ".");
+                            System.out.println("fpl_base.Player " + playerName + " has invalid type:" + position + ".");
                             return;
                     }
                 }
-                Player p = players.getPlayer(gameWeekStat.getName());
+                Player p = players.getPlayer(playerName);
                 if(!isDouble) {
-                    p.addStats(gameWeekStat);
-                    team.addTeamStats(gameWeekStat);
+                    //p.addStats(gameWeekStat);
+                    //team.addTeamStats(gameWeekStat);
+                    //Todo: create Match class
                 } else {
-                    GameWeekStat gwSingle = p.getStats(Integer.parseInt(s[20]));
-                    gwSingle.setDoubleGw(gameWeekStat);
-                    team.getStats(Integer.parseInt(s[20])).setDoubleGw(gameWeekStat);
+                    //GameWeekStat gwSingle = p.getStats(Integer.parseInt(s[20]));
+                    //gwSingle.setDoubleGw(gameWeekStat);
+                    //team.getStats(Integer.parseInt(s[20])).setDoubleGw(gameWeekStat);
+                    //Todo: redo DoubleGW mechanism
                 }
 
             }

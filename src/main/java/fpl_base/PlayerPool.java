@@ -1,14 +1,12 @@
 package fpl_base;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.function.Predicate;
 
 @SuppressWarnings("unused")
 public class PlayerPool {
     HashMap<String, Player> players;
-   // HashSet<Player> pool = new HashSet<Player>();
+   // HashSet<Player3> pool = new HashSet<Player3>();
 
     private LinkedList<GoalKeeper> goalKeepers;
     private LinkedList<Defender> defenders;
@@ -50,7 +48,7 @@ public class PlayerPool {
 
     public void addPlayer(Player player) {
         if(players.containsKey(player.getName().toLowerCase())) {
-            System.out.println("fpl_base.Player " + player.getName() + " already in pool, skipping");
+            System.out.println("fpl_base.Player3 " + player.getName() + " already in pool, skipping");
         } else {
             players.put(player.getName().toLowerCase(), player);
             if(player instanceof GoalKeeper) goalKeepers.add((GoalKeeper) player);
@@ -72,7 +70,7 @@ public class PlayerPool {
         return players.containsKey(player.getName().toLowerCase());
     }
 
-    public HashMap<String,Player> getAllPlayers() {
+    public HashMap<String, Player> getAllPlayers() {
         return players;
     }
 

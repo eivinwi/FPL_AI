@@ -2,7 +2,7 @@ package fpl_base;
 
 import java.util.*;
 
-import static fpl_base.Comparators.*;
+import static fpl_base.Util.*;
 
 @SuppressWarnings("unused")
 public class League {

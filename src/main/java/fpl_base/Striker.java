@@ -4,7 +4,11 @@ package fpl_base;
 public class Striker extends Player {
 
     public Striker(String name, double initialPrice) {
-        super(name, initialPrice);
+        super(name);
+    }
+
+    public Striker(String[] s) {
+        super(s);
     }
 
     public String type() {

@@ -4,7 +4,11 @@ package fpl_base;
 public class GoalKeeper extends Player {
 
     public GoalKeeper(String name, double initialPrice) {
-        super(name, initialPrice);
+        super(name);
+    }
+
+    public GoalKeeper(String[] s) {
+        super(s);
     }
 
     public String type() {

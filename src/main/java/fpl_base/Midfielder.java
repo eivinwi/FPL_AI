@@ -4,7 +4,11 @@ package fpl_base;
 public class Midfielder extends Player {
 
     public Midfielder(String name, double initialPrice) {
-        super(name, initialPrice);
+        super(name);
+    }
+
+    public Midfielder(String[] s) {
+        super(s);
     }
 
     public String type() {
