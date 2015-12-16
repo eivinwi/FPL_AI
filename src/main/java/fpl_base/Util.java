@@ -1,6 +1,7 @@
 package fpl_base;
 
 import java.util.Comparator;
+import fpl_base.Main;
 
 public class Util {
 
@@ -25,7 +26,19 @@ public class Util {
         return avg(a1, a2, 39);
     }
 
+    public Match getMatch(String home, String away) {
+        Team h = Main.league.getTeam(home);
+        for(Match m : h.getMatches()) {
+            if(m.getAway().getName().equals(h.getName())) {
+                return m;
+            }
+        }
+        return null;
+    }
 
+    public Match getMatch(Team home, Team away) {
+        return getMatch(home.getName(), away.getName());
+    }
 
 
     public static Comparator<Player> pointComparator = (Player p1, Player p2) -> sum(p2.getPoints()) - sum(p1.getPoints());

@@ -7,10 +7,10 @@ public class Player3 implements Comparable<Player3> {
     private double price;
     private int totalPoints;
 
-    //ArrayList<fpl_base.GameWeekStat> stats;
-    //HashMap<Double, GameWeekStat> stats;
+    //ArrayList<fpl_base.Old_GameWeekStat> stats;
+    //HashMap<Double, Old_GameWeekStat> stats;
 
-    GameWeekStat[] stats;
+    Old_GameWeekStat[] stats;
 
     public Player3(String name, double initialPrice, int totalPoints) {
         this.id = 0;
@@ -18,7 +18,7 @@ public class Player3 implements Comparable<Player3> {
         this.price = initialPrice;
         this.totalPoints = totalPoints;
         //this.stats = new HashMap<>();
-        stats = new GameWeekStat[39];
+        stats = new Old_GameWeekStat[39];
     }
 
     public Player3(String name, double initialPrice) {
@@ -79,12 +79,12 @@ public class Player3 implements Comparable<Player3> {
         return stats[round] != null;
     }
 
-    public void addStats(GameWeekStat gameWeekStat) {
-        stats[gameWeekStat.getGameweek()] = gameWeekStat;
+    public void addStats(Old_GameWeekStat oldGameWeekStat) {
+        stats[oldGameWeekStat.getGameweek()] = oldGameWeekStat;
     }
 
-    public GameWeekStat getStats(int round) {
-        return (hasStats(round)? stats[round] : new GameWeekStat());
+    public Old_GameWeekStat getStats(int round) {
+        return (hasStats(round)? stats[round] : new Old_GameWeekStat());
     }
 
     public String getType() {
@@ -94,7 +94,7 @@ public class Player3 implements Comparable<Player3> {
     public int matchesPlayed(int week) {
         int played = 0;
         for(int i = 1; i < week; i++) {
-            GameWeekStat gw = stats[i];
+            Old_GameWeekStat gw = stats[i];
             if(gw != null && gw.getMinutesPlayed() > 0) {
                 played++;
             }
@@ -109,7 +109,7 @@ public class Player3 implements Comparable<Player3> {
     public int minutesPlayed(int week) {
         int played = 0;
         for(int i = 1; i < week; i++) {
-            GameWeekStat gw = stats[i];
+            Old_GameWeekStat gw = stats[i];
             if(gw != null) {
                 played += gw.getMinutesPlayed();
             }
@@ -123,7 +123,7 @@ public class Player3 implements Comparable<Player3> {
 
     public int goals() {
         int goals = 0;
-        for(GameWeekStat gws : stats) {
+        for(Old_GameWeekStat gws : stats) {
             if (gws != null) {
                 goals += gws.getGoalsScored();
             }

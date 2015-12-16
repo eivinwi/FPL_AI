@@ -4,7 +4,7 @@ package fpl_base;
  * NOTE: not all methods are optimized for double gameweeks (or working at all, really..)
  */
 @SuppressWarnings("unused")
-public class GameWeekStat {
+public class Old_GameWeekStat {
     private String name;
     private int minutesPlayed;
     private int goalsScored;
@@ -37,9 +37,9 @@ public class GameWeekStat {
     private double seasonStartPrice;
     private double seasonEndprice;
 
-    GameWeekStat doubleGw;
+    Old_GameWeekStat doubleGw;
 
-    public GameWeekStat(String[] s) {
+    public Old_GameWeekStat(String[] s) {
         if(s.length < 30) { //Todo: check
             System.out.println("Line array too short");
         } else if(s[20].contains(".")) {
@@ -79,7 +79,7 @@ public class GameWeekStat {
         }
     }
 
-    public GameWeekStat() {
+    public Old_GameWeekStat() {
         this.name = "";
         this.minutesPlayed = 0;
         this.goalsScored = 0;
@@ -232,11 +232,11 @@ public class GameWeekStat {
         return seasonEndprice;
     }
 
-    public void setDoubleGw(GameWeekStat doubleGw) {
+    public void setDoubleGw(Old_GameWeekStat doubleGw) {
         this.doubleGw = doubleGw;
     }
 
-    public GameWeekStat getDoubleGw() {
+    public Old_GameWeekStat getDoubleGw() {
         return doubleGw;
     }
 

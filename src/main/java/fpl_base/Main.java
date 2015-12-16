@@ -28,7 +28,6 @@ public class Main {
         league = new League(players);
 
         readFile();
-
     }
 
     private static void readFile() {
@@ -45,7 +44,7 @@ public class Main {
                     s[20] = gw_num;
                     isDouble = true;
                 }
-                //GameWeekStat gameWeekStat = new GameWeekStat(s);
+                //Old_GameWeekStat gameWeekStat = new Old_GameWeekStat(s);
                 String playerName = s[0];
                 String teamName = s[16];
                 String position = s[21];
@@ -85,18 +84,20 @@ public class Main {
                 Player p = players.getPlayer(playerName);
                 if(!isDouble) {
                     //p.addStats(gameWeekStat);
-                    //team.addTeamStats(gameWeekStat);
                     //Todo: create Match class
+                    //team.addTeamStats(gameWeekStat);
                 } else {
-                    //GameWeekStat gwSingle = p.getStats(Integer.parseInt(s[20]));
+                    //Old_GameWeekStat gwSingle = p.getStats(Integer.parseInt(s[20]));
                     //gwSingle.setDoubleGw(gameWeekStat);
                     //team.getStats(Integer.parseInt(s[20])).setDoubleGw(gameWeekStat);
                     //Todo: redo DoubleGW mechanism
                 }
 
             }
-         } catch (Exception e) {
+        } catch (Exception e) {
             System.err.println("Error during file read: " + e);
+        } finally {
+            //TODO: create Mactches in finally??
         }
     }
 }

@@ -4,6 +4,7 @@ package fpl_base;
 public class Player implements Comparable {
     private static final int rounds = 39; //38+1 to avoid having to constantly convert gameweek to n-1 for arrays
     private String name;
+    private Team team; //TODO: set
 
     // FPL
     private boolean[] played = new boolean[rounds];
@@ -54,6 +55,14 @@ public class Player implements Comparable {
 
     public String getName() {
         return name;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public String getTeamName() {
+        return team.getName();
     }
 
     public boolean[] getPlayed() {

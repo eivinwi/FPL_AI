@@ -13,6 +13,7 @@ public class Team implements Comparable<Team> {
 
     //HashMap<Double, TeamStats> stats;
     TeamStats[] stats;
+    Match[] matches;
 
     private int points;
     private int goalsScored;
@@ -112,7 +113,7 @@ public class Team implements Comparable<Team> {
         return goalsScored - goalsConceded;
     }
 
-    public void addTeamStats(GameWeekStat gws) {
+    public void addTeamStats(Old_GameWeekStat gws) {
         if(stats[gws.getGameweek()] == null) {
             stats[gws.getGameweek()] = new TeamStats(gws);
         }
@@ -237,6 +238,10 @@ public class Team implements Comparable<Team> {
         return points;
     }
 
+    public Match[] getMatches() {
+        return matches;
+    }
+
     @Override
     public boolean equals(Object o) {
        return (o instanceof Team) && (this.name.equals(((Team) o).getName()));
@@ -293,7 +298,7 @@ public class Team implements Comparable<Team> {
             }
         }
 
-        public TeamStats(GameWeekStat gws) {
+        public TeamStats(Old_GameWeekStat gws) {
             this(gws.getGameweek(), gws.getTeam(), gws.getScore(), gws.getOpponent(), gws.getH_A());
         }
 
@@ -306,7 +311,7 @@ public class Team implements Comparable<Team> {
             this.doubleGw = doubleGw;
         }
 
-        public void setDoubleGw(GameWeekStat doubleGw) {
+        public void setDoubleGw(Old_GameWeekStat doubleGw) {
             this.doubleGw = new TeamStats(doubleGw);
         }
 
