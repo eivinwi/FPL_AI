@@ -1,38 +1,43 @@
 package fpl_base;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+
+import javax.annotation.PostConstruct;
 import java.io.*;
 
+
+@SpringBootApplication
+@ComponentScan({"fpl_base", "rest", "service"})
 public class Main {
-    static PlayerPool players;
-    static League league;
+    private PlayerPool playerPool;
+    private League league;
+
+    @Autowired
+    public void setPlayerPool(PlayerPool playerPool) {
+        this.playerPool = playerPool;
+    }
+
+    @Autowired
+    public void setLeague(League league) {
+        this.league = league;
+    }
 
     public static void main(String[] args) {
-        System.out.println("Hello World!" +
-                "");
-        setup();
-
-
-        //testPrint();
+        SpringApplication.run(Main.class, args);
     }
 
-    public static void testPrint() {
-        for(Object o : league.top(players.getStrikers(), 0)) {
-            Player3 p = (Player3) o;
-            System.out.println(p.getName() + " (" + p.matchesPlayed() + "," + p.goals() + "): " + p.getTotalPoints());
-        }
+    @PostConstruct
+    private void setup() {
+        System.out.println("Reading files and creating structures...");
+        readFile("data/14-15_fixed.csv", 2014);
     }
 
-
-    protected static void setup() {
-        players = new PlayerPool();
-        league = new League(players);
-
-        readFile();
-    }
-
-    private static void readFile() {
+    private void readFile(String fileName, int season) {
         try {
-            InputStream is = new FileInputStream(new File("data/14-15_fixed.csv"));
+            InputStream is = new FileInputStream(new File(fileName));
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             @SuppressWarnings("UnusedAssignment") String line = br.readLine();
             while( (line = br.readLine()) != null) {
@@ -48,32 +53,35 @@ public class Main {
                 String playerName = s[0];
                 String teamName = s[16];
                 String position = s[21];
-                if(!league.hasTeam(teamName)) { //gameWeekStat.getTeam())) {
-                    //league.addTeam(new Team(gameWeekStat.getTeam()));
+                if(!league.hasTeam(teamName)) {
                     league.addTeam(new Team(teamName));
                 }
 
                 Team team = league.getTeam(teamName);
-                if (!players.hasPlayer(playerName)) {
+                if (!playerPool.hasPlayer(playerName)) {
                     switch (position) {
                         case "GKP":
-                            GoalKeeper gk = new GoalKeeper(s);
-                            players.addPlayer(gk);
+                            GoalKeeper gk = new GoalKeeper(playerName, teamName);
+                            gk.addStats(season, s);
+                            playerPool.addPlayer(gk);
                             team.addGoalKeepers(gk);
                             break;
                         case "DEF":
-                            Defender defender = new Defender(s);
-                            players.addPlayer(defender);
+                            Defender defender = new Defender(playerName, teamName);
+                            defender.addStats(season, s);
+                            playerPool.addPlayer(defender);
                             team.addDefender(defender);
                             break;
                         case "MID":
-                            Midfielder midfielder = new Midfielder(s);
-                            players.addPlayer(midfielder);
+                            Midfielder midfielder = new Midfielder(playerName, teamName);
+                            midfielder.addStats(season, s);
+                            playerPool.addPlayer(midfielder);
                             team.addMidfielder(midfielder);
                             break;
                         case "FWD":
-                            Striker striker = new Striker(s);
-                            players.addPlayer(striker);
+                            Striker striker = new Striker(playerName, teamName);
+                            striker.addStats(season, s);
+                            playerPool.addPlayer(striker);
                             team.addStriker(striker);
                             break;
                         default:
@@ -81,7 +89,7 @@ public class Main {
                             return;
                     }
                 }
-                Player p = players.getPlayer(playerName);
+                Player p = playerPool.getPlayer(playerName);
                 if(!isDouble) {
                     //p.addStats(gameWeekStat);
                     //Todo: create Match class

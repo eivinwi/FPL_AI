@@ -1,19 +1,23 @@
 package fpl_base;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.*;
 
 import static fpl_base.Util.*;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
+@Component
 public class League {
     //TODO: redo list implementation
-    private LinkedList<Team> teams;
-    PlayerPool players;
-    //private SortedList<Team> teams;
+    private LinkedList<Team> teams = new LinkedList<>();
 
+    //private SortedList<Team> teams;
+    private PlayerPool players;
+
+    @Autowired
     public League(PlayerPool players) {
-        //teams = new SortedList<Team>();
-        //teams = new TreeSet<>();
         this.players = players;
         teams = new LinkedList<>();
     }
@@ -75,7 +79,7 @@ public class League {
         Collections.sort(list, comparator);
         return list.subList(0, (n > 0)? n : list.size());
     }
-
+/*
     public List top(LinkedList list, int n) {
         return sortAndCompare(list, n, pointComparator);
     }
@@ -127,7 +131,7 @@ public class League {
         List<Team> t = teams;
         Collections.sort(teams, teamPointComparator);
         return t;
-    }
+    }*/
 
     public void showTeams() {
         System.out.println("Barclays Premier fpl_base.League - teams:");
@@ -135,12 +139,12 @@ public class League {
             System.out.println(t.getName() + ":  " + t.getPoints());
         }
     }
-
+/*
 
     public void showTable(int gw) {
         System.out.println("Barclays Premier fpl_base.League - teams:");
         for(Team t : table()) {
             System.out.println(t.getName() + ":  " + t.totalPointsAtGameweek(gw) + "  (" + t.totalMatches() + ")");
         }
-    }
+    }*/
 }

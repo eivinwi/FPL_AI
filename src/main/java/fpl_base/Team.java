@@ -2,8 +2,9 @@ package fpl_base;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class Team implements Comparable<Team> {
     private String name;
     private ArrayList<GoalKeeper> goalKeepers;
@@ -85,6 +86,10 @@ public class Team implements Comparable<Team> {
         this.strikers.add(striker);
     }
 
+    public Stream getPlayers() {
+        return Stream.of(goalKeepers, defenders, midfielders, strikers).flatMap(Collection::stream);
+    }
+
     public int getPoints() {
         return points;
     }
@@ -123,15 +128,15 @@ public class Team implements Comparable<Team> {
     //TODO: order of collection list??
     public LinkedList<Player> getTeamInGameWeek(int gw) {
         LinkedList<Player> gwTeam = new LinkedList<>();
-        gwTeam.addAll(goalKeepers.stream().filter(player -> player.getMinutesPlayed(gw) > 0).collect(Collectors.toList()));
-        gwTeam.addAll(defenders.stream().filter(player -> player.getMinutesPlayed(gw) > 0).collect(Collectors.toList()));
-        gwTeam.addAll(midfielders.stream().filter(player -> player.getMinutesPlayed(gw) > 0).collect(Collectors.toList()));
-        gwTeam.addAll(strikers.stream().filter(player -> player.getMinutesPlayed(gw) > 0).collect(Collectors.toList()));
+        gwTeam.addAll(goalKeepers.stream().filter(player -> player.getGameWeek(gw).getMinutesPlayed()> 0).collect(Collectors.toList()));
+        gwTeam.addAll(defenders.stream().filter(player -> player.getGameWeek(gw).getMinutesPlayed() > 0).collect(Collectors.toList()));
+        gwTeam.addAll(midfielders.stream().filter(player -> player.getGameWeek(gw).getMinutesPlayed() > 0).collect(Collectors.toList()));
+        gwTeam.addAll(strikers.stream().filter(player -> player.getGameWeek(gw).getMinutesPlayed() > 0).collect(Collectors.toList()));
         return gwTeam;
     }
 
     private List<Player> wasOnTeam(ArrayList<Player> players, int gw) {
-        return players.stream().filter(player -> player.getMinutesPlayed(gw) > 0).collect(Collectors.toList());
+        return players.stream().filter(player -> player.getGameWeek(gw).getMinutesPlayed() > 0).collect(Collectors.toList());
     }
 
     public int totalPointsInGameWeek(int gw) {
@@ -147,7 +152,7 @@ public class Team implements Comparable<Team> {
         int points = 0;
         for(Object o : players) {
             Player player = (Player) o;
-            points += player.getPoints(gw);
+            points += player.getGameWeek(gw).getPoints();
         }
         return points;
     }
@@ -177,10 +182,10 @@ public class Team implements Comparable<Team> {
         return games;
     }
 
-    public void showPlayers() {
+/*    public void showPlayers() {
         System.out.println(getName() + " players:");
         for(GoalKeeper gk : goalKeepers) {
-            System.out.println("GK :" + gk.getName() + " (" + Util.sum(gk.getPoints()) + ")");
+            System.out.println("GK :" + gk.getName() + " (" + Util.sum(gk.getSeasons().getPoints()) + ")");
         }
         for(Defender def : defenders) {
             System.out.println("DEF:" + def.getName() + " (" + Util.sum(def.getPoints()) + ")");
@@ -193,6 +198,8 @@ public class Team implements Comparable<Team> {
         }
     }
 
+
+    @SuppressWarnings("unchecked")
     public void showPlayersByGw(int gw) {
         System.out.println(getName() + " players:");
         Collections.sort(goalKeepers);
@@ -236,7 +243,7 @@ public class Team implements Comparable<Team> {
             points += Util.sum(str.getPoints());
         }
         return points;
-    }
+    }*/
 
     public Match[] getMatches() {
         return matches;

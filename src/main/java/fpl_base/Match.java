@@ -17,9 +17,9 @@ public class Match {
     }
 
     public void addPlayer(Player p) {
-        if(p.getTeam().equals(home) && !homePlayers.contains(p)) {
+        if(p.getTeamName().equals(home.getName()) && !homePlayers.contains(p)) {
             homePlayers.add(p);
-        } else if(p.getTeam().equals(away) && !awayPlayers.contains(p)) {
+        } else if(p.getTeamName().equals(away.getName()) && !awayPlayers.contains(p)) {
             awayPlayers.add(p);
         }
     }

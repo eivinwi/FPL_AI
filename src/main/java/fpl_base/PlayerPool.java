@@ -1,12 +1,14 @@
 package fpl_base;
 
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 
 @SuppressWarnings("unused")
+@Component
 public class PlayerPool {
-    HashMap<String, Player> players;
-   // HashSet<Player3> pool = new HashSet<Player3>();
+    private HashMap<String, Player> players;
 
     private LinkedList<GoalKeeper> goalKeepers;
     private LinkedList<Defender> defenders;
