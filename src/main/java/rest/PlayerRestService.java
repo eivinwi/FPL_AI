@@ -1,18 +1,19 @@
 package rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fpl_base.League;
 import fpl_base.Player;
+import fpl_base.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import service.PlayerService;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
+import java.util.stream.Stream;
 
 @Controller
 public class PlayerRestService {
@@ -25,26 +26,19 @@ public class PlayerRestService {
     @RequestMapping(value = "/players/{name}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Player getPlayer(@RequestParam String name) {
+    public @ResponseBody Player getPlayer(@PathVariable String name) {
         return players.getPlayer(name);
     }
-/*
-    @RequestMapping(value = "/team",
+
+    @RequestMapping(value = "/teams/{teamName}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody String getTeamPlayers(@RequestParam String teamName) {
-        String json = "";
+    public @ResponseBody Stream<Player> getTeamPlayers(@PathVariable String teamName) {
         if(league.hasTeam(teamName)) {
-            try {
-                ObjectMapper om = new ObjectMapper();
-                json = om.writeValueAsString(league.getTeam(teamName).getPlayers());
-            } catch (IOException e) {
-                System.err.println("Error while serializing team: " + teamName);
-                json = "";
-            }
+            return league.getTeam(teamName).getPlayers();
         }
-        return json;
-    }*/
+        return null;
+    }
 
     @RequestMapping(value = "/players",
             method = RequestMethod.GET,

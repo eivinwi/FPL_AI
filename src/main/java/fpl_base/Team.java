@@ -86,7 +86,7 @@ public class Team implements Comparable<Team> {
         this.strikers.add(striker);
     }
 
-    public Stream getPlayers() {
+    public Stream<Player> getPlayers() {
         return Stream.of(goalKeepers, defenders, midfielders, strikers).flatMap(Collection::stream);
     }
 

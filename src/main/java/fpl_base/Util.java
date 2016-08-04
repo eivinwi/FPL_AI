@@ -1,12 +1,17 @@
 package fpl_base;
 
 import java.util.Comparator;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fpl_base.Main;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class Util {
     public enum PlayerType {GOALKEEPER, DEFENDER, MIDFIELDER, STRIKER, NONE}
     public static final int CURRENT_SEASON = 2015;
+
+    private static ObjectMapper om;
 
     @Autowired
     private League league;
@@ -34,7 +39,7 @@ public class Util {
     public Match getMatch(String home, String away) {
         Team h = league.getTeam(home);
         for(Match m : h.getMatches()) {
-            if(m.getAway().getName().equals(h.getName())) {
+            if(m.getAwayTeam().getName().equals(h.getName())) {
                 return m;
             }
         }
@@ -87,4 +92,8 @@ public class Util {
             t2.getPoints() - t1.getPoints();
 
 */
+
+    public static String writeValueAsString(Object input) throws JsonProcessingException {
+        return om.writeValueAsString(input);
+    }
 }
