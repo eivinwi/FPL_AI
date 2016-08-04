@@ -13,7 +13,6 @@ public class Match {
     private List<Player> awayPlayers;
 
     public Match() {
-
     }
 
     public void addPlayer(Player p) {
@@ -24,11 +23,11 @@ public class Match {
         }
     }
 
-    public Team getHome() {
+    public Team getHomeTeam() {
         return home;
     }
 
-    public Team getAway() {
+    public Team getAwayTeam() {
         return away;
     }
 
@@ -44,21 +43,24 @@ public class Match {
         return homePlayers;
     }
 
-
     public List<Player> getAwayPlayers() {
         return awayPlayers;
     }
 
-    public int getPoints(String name) {
-        if(name.equals(home.getName())) {
+    public int getPoints(String teamName) {
+        if(teamName.equals(home.getName())) {
             if(homeScore > awayScore) return 3;
             else return (homeScore == awayScore)? 1 : 0;
-        } else if(name.equals(away.getName())) {
+        } else if(teamName.equals(away.getName())) {
             if(homeScore < awayScore) return 3;
             else return (homeScore == awayScore)? 1 : 0;
         }
-        System.err.format("Team %s is not a part of the match %s-%s\n", name, home.getName(), away.getName());
+        System.err.format("Team %s is not a part of the match %s-%s\n", teamName, home.getName(), away.getName());
         return 0;
+    }
+
+    public int getPoints(boolean forHome) {
+        return (forHome)? getPoints(home.getName()) : getPoints(away.getName());
     }
 
     public int getPoints(Team t) {
